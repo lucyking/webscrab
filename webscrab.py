@@ -60,6 +60,9 @@ class MyParser(HTMLParser):
         with open(filename, "wb") as code:
             code.write(data)
         print "Download Done!"
+        #rm the old apk
+        cmd="rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        print os.popen(cmd).read()
         #script alongside the Res dir
         cmd = "ln -s ./"+apk_version + ".apk"+"   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
