@@ -64,7 +64,7 @@ class MyParser(HTMLParser):
 
 
 
-# if __name__ ==  ' __main__ ' :    <------ 该冒号为中文 导致run不会执行（直接拷贝网页代码的锅
+# if __name__ ==  ' __main__ ' :    <------ 该冒号为中文 导致run不会执行
 if __name__ == '__main__':
 
     MyParser = MyParser()
