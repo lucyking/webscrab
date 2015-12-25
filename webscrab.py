@@ -40,9 +40,8 @@ class MyParser(HTMLParser):
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
 
-        cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true " \
-              "&& mv webscrab.py?raw webscrab.py"
-        print os.popen(cmd).read()
+        # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
+        # print os.popen(cmd).read()
 
         html = self.getHtml('http://10.240.129.99/nightly/')
         apk_list = self.feed(html)
@@ -60,20 +59,15 @@ class MyParser(HTMLParser):
         with open(filename, "wb") as code:
             code.write(data)
         print "Download Done!"
-
         #script alongside the Res dir
-        cmd = "ln -s ./"+apk_version + ".apk"+"   ./Resources/yixin_test.apk"
+        cmd = "ln -s ./"+apk_version + ".apk"+"   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
 
-        cmd = """pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical Test/YX_Subscriptions/test_suite_examples.txt"""
+        # cmd ="pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical Test/YX_Subscriptions/test_suite_examples.txt"
+        cmd = "date"
         # print "[%s]:" %ctime()
         print "-------%s-------" %ctime()
         print os.popen(cmd).read()
-
-
-
-
-
 
 # if __name__ ==  ' __main__ ' :    <------ 该冒号为中文 导致run不会执行
 if __name__ == '__main__':
