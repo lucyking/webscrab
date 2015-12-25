@@ -30,7 +30,8 @@ class MyParser(HTMLParser):
 
     def startAppium(self):
         # cmd = 'start /b appium'
-        cmd = 'appium &'
+        # cmd = 'appium &'
+        cmd = 'date'
         print "-------%s-------" %ctime()
         print os.popen(cmd).read()
 
