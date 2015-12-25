@@ -1,7 +1,7 @@
 # coding=utf-8
 import urllib, urllib2
-import sys, os,threading
-from time import ctime,sleep
+import sys, os, threading
+from time import ctime, sleep
 from HTMLParser import HTMLParser
 
 
@@ -32,11 +32,10 @@ class MyParser(HTMLParser):
         # cmd = 'start /b appium'
         # cmd = 'nohup appium & '
         cmd = 'date'
-        print "-------%s-------" %ctime()
+        print "-------%s-------" % ctime()
         print os.popen(cmd).read()
 
     def job_1(self):
-
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
@@ -46,32 +45,33 @@ class MyParser(HTMLParser):
 
         html = self.getHtml('http://10.240.129.99/nightly/')
         apk_list = self.feed(html)
-        print "-------%s-------" %ctime()
+        print "-------%s-------" % ctime()
         print apk_list
         print self.resault
         apk_version = self.resault
-        apk_version = apk_version.replace('/','')
+        apk_version = apk_version.replace('/', '')
         download_url = "http://10.240.129.99/nightly/" + apk_version + '/' + apk_version + ".apk"
         f = urllib2.urlopen(download_url)
         self.pwd = self.get_pwd()
         print self.pwd
         data = f.read()
-        filename= apk_version+".apk"
+        filename = apk_version + ".apk"
         with open(filename, "wb") as code:
             code.write(data)
         print "Download Done!"
-        #rm the old apk
-        cmd="rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        # rm the old apk
+        cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
-        #script alongside the Res dir
-        cmd = "ln -s ./"+apk_version + ".apk"+"   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        # script alongside the Res dir
+        cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
 
-        cmd ="pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical Test/YX_Subscriptions/test_suite_examples.txt"
-        # cmd = "date"
+        cmd = "pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical Test/YX_Subscriptions/test_suite_examples.txt"
+        # cmd = "ps aux"
         # print "[%s]:" %ctime()
-        print "-------%s-------" %ctime()
+        print "-------%s-------" % ctime()
         print os.popen(cmd).read()
+
 
 # if __name__ ==  ' __main__ ' :    <------ 该冒号为中文 导致run不会执行
 if __name__ == '__main__':
@@ -114,8 +114,3 @@ if __name__ == '__main__':
         t.start()
     for t in threads:
         t.join()
-
-
-
-
-
