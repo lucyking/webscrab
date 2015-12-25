@@ -29,13 +29,21 @@ class MyParser(HTMLParser):
         return html
 
     def startAppium(self):
-        cmd = 'start /b appium'
-        # cmd = 'date'
-        # print "[%s]:" %ctime()
+        # cmd = 'start /b appium'
+        cmd = 'appium &'
         print "-------%s-------" %ctime()
         print os.popen(cmd).read()
 
     def job_1(self):
+
+
+        cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
+        print os.popen(cmd).read()
+
+        cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true " \
+              "&& mv webscrab.py?raw webscrab.py"
+        print os.popen(cmd).read()
+
         html = self.getHtml('http://10.240.129.99/nightly/')
         apk_list = self.feed(html)
         print "-------%s-------" %ctime()
@@ -43,16 +51,19 @@ class MyParser(HTMLParser):
         print self.resault
         apk_version = self.resault
         apk_version = apk_version.replace('/','')
-        download_url = """http://10.240.129.99/nightly/""" + apk_version + '/' + apk_version + """.apk"""
+        download_url = "http://10.240.129.99/nightly/" + apk_version + '/' + apk_version + ".apk"
         f = urllib2.urlopen(download_url)
         self.pwd = self.get_pwd()
         print self.pwd
-
         data = f.read()
         filename= apk_version+".apk"
         with open(filename, "wb") as code:
             code.write(data)
         print "Download Done!"
+
+        #script alongside the Res dir
+        cmd = "ln -s ./"+apk_version + ".apk"+"   ./Resources/yixin_test.apk"
+        print os.popen(cmd).read()
 
         cmd = """pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical Test/YX_Subscriptions/test_suite_examples.txt"""
         # print "[%s]:" %ctime()
