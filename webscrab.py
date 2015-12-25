@@ -30,8 +30,8 @@ class MyParser(HTMLParser):
 
     def startAppium(self):
         # cmd = 'start /b appium'
-        cmd = 'nohup appium & && exit'
-        # cmd = 'date'
+        # cmd = 'nohup appium & '
+        cmd = 'date'
         print "-------%s-------" %ctime()
         print os.popen(cmd).read()
 
@@ -67,8 +67,8 @@ class MyParser(HTMLParser):
         cmd = "ln -s ./"+apk_version + ".apk"+"   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
 
-        # cmd ="pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical Test/YX_Subscriptions/test_suite_examples.txt"
-        cmd = "date"
+        cmd ="pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical Test/YX_Subscriptions/test_suite_examples.txt"
+        # cmd = "date"
         # print "[%s]:" %ctime()
         print "-------%s-------" %ctime()
         print os.popen(cmd).read()
