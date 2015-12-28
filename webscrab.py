@@ -30,7 +30,7 @@ class MyParser(HTMLParser):
         # cmd = 'start /b appium'
         # cmd = 'nohup appium & '
         # cmd = 'echo `nohup /usr/local/bin/appium &` &'
-        cmd = 'date'
+        cmd = 'ps aux'
         print "-------%s-------" % ctime()
         print os.popen(cmd).read()
 
@@ -158,9 +158,9 @@ if __name__ == '__main__':
     cmd = 'uname -a'
     uname_str = os.popen(cmd).read()
     print "[arch]:",uname_str
-    mac_arch = re.search("Mac",uname_str)
+    mac_arch = re.search("Kernel Version",uname_str)
     win_arch = re.search("Msys",uname_str)
-    linux_arch = re.search("",uname_str)
+    linux_arch = re.search("GNU/Linux",uname_str)
 
     t2= 'None'
     if mac_arch:
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     elif win_arch:
         t2 = threading.Thread(target=MyParser.job_Windows())
     elif linux_arch:
-        t2 = threading.Thread(target=MyParser.job_Linux())
+        t2 = threading.Thread(target=MyParser.job_Linux())  # you can use job_Mac() temporary
     else:
         print "[err]:can NOT detect OS type :-("
 
