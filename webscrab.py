@@ -159,9 +159,10 @@ if __name__ == '__main__':
     uname_str = os.popen(cmd).read()
     print "[arch]:",uname_str
     mac_arch = re.search("Mac",uname_str)
-    win_arch = re.search("Mac",uname_str)
-    linux_arch = re.search("Mac",uname_str)
+    win_arch = re.search("Msys",uname_str)
+    linux_arch = re.search("",uname_str)
 
+    t2= 'None'
     if mac_arch:
         t2 = threading.Thread(target=MyParser.job_Mac())
     elif win_arch:
@@ -174,7 +175,8 @@ if __name__ == '__main__':
     threads = []
     t1 = threading.Thread(target=MyParser.startAppium())
     threads.append(t1)
-    threads.append(t2)
+    if t2 != 'None':
+        threads.append(t2)
     for t in threads:
         t.start()
     for t in threads:
