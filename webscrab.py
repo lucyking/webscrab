@@ -137,8 +137,8 @@ class MyParser(HTMLParser):
         # rm the old apk
         cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
-        # script alongside the Res dir
-        cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        # "ln -s" don't work in Windows, use "ln" instead
+        cmd = "ln  ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
 
         cmd = "pybot --variable BROWSER:safari --outputdir safari_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
