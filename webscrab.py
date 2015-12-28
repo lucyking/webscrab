@@ -156,10 +156,12 @@ if __name__ == '__main__':
     uname_str = os.popen(cmd).read()
     sys_arch = re.search("Kernel",uname_str)
     print sys_arch
+
     if sys_arch:
         t2 = threading.Thread(target=MyParser.job_Mac())
     else:
         t2 = threading.Thread(target=MyParser.job_Windows())
+
     threads = []
     t1 = threading.Thread(target=MyParser.startAppium())
     threads.append(t1)
