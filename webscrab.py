@@ -169,7 +169,7 @@ if __name__ == '__main__':
     elif linux_arch:
         t2 = threading.Thread(target=MyParser.job_Linux())
     else:
-        print "[err]:can NOT detect which type this OS is,exit. :-("
+        print "[err]:can NOT detect OS type :-("
 
     threads = []
     t1 = threading.Thread(target=MyParser.startAppium())
