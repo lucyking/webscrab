@@ -163,7 +163,6 @@ if __name__ == '__main__':
 
     threads = []
     t1 = threading.Thread(target=MyParser.startAppium())
-    # t2 = threading.Thread(target=MyParser.job_Mac())
     threads.append(t1)
     threads.append(t2)
     for t in threads:
