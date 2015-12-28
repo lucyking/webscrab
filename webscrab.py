@@ -154,8 +154,8 @@ if __name__ == '__main__':
 
     cmd = 'uname -a'
     uname_str = os.popen(cmd).read()
+    print "[arch]:",uname_str
     sys_arch = re.search("Kernel",uname_str)
-    print sys_arch
 
     if sys_arch:
         t2 = threading.Thread(target=MyParser.job_Mac())
@@ -170,5 +170,3 @@ if __name__ == '__main__':
         t.start()
     for t in threads:
         t.join()
-
-
