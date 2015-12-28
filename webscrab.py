@@ -1,6 +1,6 @@
 # coding=utf-8
 import urllib, urllib2
-import sys, os, threading
+import sys, os,re, threading
 from time import ctime, sleep
 from HTMLParser import HTMLParser
 
@@ -151,9 +151,19 @@ class MyParser(HTMLParser):
 if __name__ == '__main__':
 
     MyParser = MyParser()
+
+    cmd = 'uname -a'
+    uname_str = os.popen(cmd).read()
+    sys_arch = re.search("Kernel",uname_str)
+    print sys_arch
+    if sys_arch:
+        t2 = threading.Thread(target=MyParser.job_Mac())
+    else:
+        t2 = threading.Thread(target=MyParser.job_Windows())
+
     threads = []
     t1 = threading.Thread(target=MyParser.startAppium())
-    t2 = threading.Thread(target=MyParser.job_Mac())
+    # t2 = threading.Thread(target=MyParser.job_Mac())
     threads.append(t1)
     threads.append(t2)
     for t in threads:
