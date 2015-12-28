@@ -147,6 +147,9 @@ class MyParser(HTMLParser):
         print "-------%s-------" % ctime()
         print os.popen(cmd).read()
 
+    def job_Linux(self):
+        print "[info]:Linux fx() need added in future ;-)"
+
 
 if __name__ == '__main__':
 
@@ -155,12 +158,18 @@ if __name__ == '__main__':
     cmd = 'uname -a'
     uname_str = os.popen(cmd).read()
     print "[arch]:",uname_str
-    sys_arch = re.search("Kernel",uname_str)
+    mac_arch = re.search("Mac",uname_str)
+    win_arch = re.search("Mac",uname_str)
+    linux_arch = re.search("Mac",uname_str)
 
-    if sys_arch:
+    if mac_arch:
         t2 = threading.Thread(target=MyParser.job_Mac())
-    else:
+    elif win_arch:
         t2 = threading.Thread(target=MyParser.job_Windows())
+    elif linux_arch:
+        t2 = threading.Thread(target=MyParser.job_Linux())
+    else:
+        print "[err]:can NOT detect which type this OS is,exit. :-("
 
     threads = []
     t1 = threading.Thread(target=MyParser.startAppium())
