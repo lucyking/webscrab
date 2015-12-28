@@ -89,7 +89,7 @@ class MyParser(HTMLParser):
 
         cmd = "mkdir RFUI_outputs_dir"
         print os.popen(cmd).read()
-        cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/"
+        # cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/"
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
