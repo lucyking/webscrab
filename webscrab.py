@@ -46,7 +46,7 @@ class MyParser(HTMLParser):
 
         cmd = "mkdir RFUI_outputs_dir"
         print os.popen(cmd).read()
-        cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/"
+        # cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/"
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
@@ -76,6 +76,19 @@ class MyParser(HTMLParser):
             with open(filename, "wb") as code:
                 code.write(data)
             print "Download Done!"
+
+        # rm the old apk
+        cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        print os.popen(cmd).read()
+        # script alongside the Res dir
+        cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        print os.popen(cmd).read()
+
+        cmd = "pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
+        # cmd = "ps aux"
+        # print "[%s]:" %ctime()
+        print "-------%s-------" % ctime()
+        print os.popen(cmd).read()
 
     def job_Windows(self):
         # cmd = "rm ./*"
