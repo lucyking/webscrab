@@ -15,6 +15,21 @@ class MyParser(HTMLParser):
     def get_pwd(self):
         return sys.path[0]
 
+    def get_device_info(self):
+        """
+        adb_info=`adb shell cat /system/build.prop`
+        echo "adb_info: ${adb_info}"
+        dev_manufacturer=`echo "${adb_info}" | grep ro.product.manufacturer | awk -F\= '{print $2}'`
+        dev_model=`echo "${adb_info}" | grep ro.product.model | awk -F\= '{print $2}'`
+        device_os_version=`echo "${adb_info}" | grep ro.build.version.release | awk -F\= '{print $2}'`
+        echo "\ndev_manufacturer: ${dev_manufacturer}"
+        echo "dev_model: ${dev_model}"
+        echo "device_os_version: ${device_os_version}"
+        """
+        cmd ="echo `adb shell cat /system/build.prop`" #1228
+        print ">>>",os.popen(cmd).read()
+
+
     def handle_starttag(self, tag, attrs):
         if tag == 'a':
             for name, value in attrs:
