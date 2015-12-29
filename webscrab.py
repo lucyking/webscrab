@@ -32,6 +32,7 @@ class MyParser(HTMLParser):
         cmd = "date"
         print os.popen(cmd).read()
         cmd ="adb shell cat /system/build.prop"
+        sleep(5)
         print cmd
         dev_info = os.popen(cmd).read()
         print ">>>",dev_info
