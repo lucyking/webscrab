@@ -31,7 +31,8 @@ class MyParser(HTMLParser):
         """
         cmd = "date"
         print os.popen(cmd).read()
-        cmd ="adb shell cat /system/build.prop" #1228
+        cmd ="adb shell cat /system/build.prop"
+        print cmd
         dev_info = os.popen(cmd).read()
         print ">>>",dev_info
         self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
