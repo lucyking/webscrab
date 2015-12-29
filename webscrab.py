@@ -188,7 +188,7 @@ if __name__ == '__main__':
         print "[err]:can NOT detect OS type :-("
 
     threads = []
-    t1 = threading.Thread(target=MyParser.startAppium())
+    t1 = threading.Thread(target=MyParser.get_device_info())
     threads.append(t1)
     if t2 != 'None':
         threads.append(t2)
