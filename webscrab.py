@@ -29,6 +29,8 @@ class MyParser(HTMLParser):
         echo "dev_model: ${dev_model}"
         echo "device_os_version: ${device_os_version}"
         """
+        cmd = "date"
+        print os.popen(cmd).read()
         cmd ="adb shell cat /system/build.prop" #1228
         dev_info = os.popen(cmd).read()
         self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
@@ -181,7 +183,6 @@ class MyParser(HTMLParser):
 if __name__ == '__main__':
 
     MyParser = MyParser()
-
     """
     cmd = 'uname -a'
     uname_str = os.popen(cmd).read()
