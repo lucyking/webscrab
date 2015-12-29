@@ -26,7 +26,7 @@ class MyParser(HTMLParser):
         echo "dev_model: ${dev_model}"
         echo "device_os_version: ${device_os_version}"
         """
-        cmd ="echo `adb shell cat /system/build.prop`" #1228
+        cmd ="adb shell cat /system/build.prop" #1228
         print ">>>",os.popen(cmd).read()
 
 
