@@ -8,6 +8,9 @@ from HTMLParser import HTMLParser
 class MyParser(HTMLParser):
     resault = 'None'
     pwd = "/your/script/init/path"
+    dev_manufacturer = 'None'
+    dev_model = 'None'
+    dev_os_version = 'None'
 
     def __init__(self):
         HTMLParser.__init__(self)
@@ -27,7 +30,14 @@ class MyParser(HTMLParser):
         echo "device_os_version: ${device_os_version}"
         """
         cmd ="adb shell cat /system/build.prop" #1228
-        print ">>>",os.popen(cmd).read()
+        dev_info = os.popen(cmd).read()
+        self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
+        self.dev_model = re.search(r"(ro.product.model=)(\S+)",dev_info).group(2)
+        self.dev_os_version= re.search(r"(ro.build.version.release=)(\S+)",dev_info).group(2)
+        print self.dev_manufacturer,self.dev_model,self.dev_os_version
+
+
+
 
 
     def handle_starttag(self, tag, attrs):
