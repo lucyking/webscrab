@@ -1,6 +1,6 @@
 # coding=utf-8
 import urllib, urllib2
-import sys, os,re, threading
+import sys, os,re, threading,platform
 from time import ctime, sleep
 from HTMLParser import HTMLParser
 
@@ -182,12 +182,16 @@ if __name__ == '__main__':
 
     MyParser = MyParser()
 
+    """
     cmd = 'uname -a'
     uname_str = os.popen(cmd).read()
     print "[arch]:",uname_str
-    mac_arch = re.search("Kernel Version",uname_str)
-    win_arch = re.search("Msys",uname_str)
-    linux_arch = re.search("GNU/Linux",uname_str)
+    """
+    uname_str = platform.system()
+    print uname_str
+    mac_arch = re.search("Darwin",uname_str)
+    win_arch = re.search("Windows",uname_str)
+    linux_arch = re.search("Linux",uname_str)
 
     t2= 'None'
     if mac_arch:
