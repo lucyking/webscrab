@@ -134,6 +134,7 @@ class MyParser(HTMLParser):
         # print os.popen(cmd).read()
 
         # cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
+        # >>>1230 this operation may failed
         cmd = ' "C:\Program Files\Git\bin\git" clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git '
 
         # git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
