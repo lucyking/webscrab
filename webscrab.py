@@ -29,11 +29,13 @@ class MyParser(HTMLParser):
         echo "dev_model: ${dev_model}"
         echo "device_os_version: ${device_os_version}"
         """
-        cmd = "date"
-        print os.popen(cmd).read()
         # cmd = "adb shell cat /system/build.prop "
         cmd = "C:\Users\Administrator\AppData\Local\Android\sdk\platform-tools\adb.exe shell cat /system/build.prop"
         # dev_info = os.popen(cmd).read()
+        p =subprocess.Popen("C:/Users/hzxiadaqiang/AppData/Local/Android/sdk/platform-tools/adb.exe shell cat /system/build.prop",shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        dev_info,stderr = p.communicate()
+        print dev_info,stderr
+
         dev_info = subprocess.call(cmd)
         print ">>>",dev_info
         self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
