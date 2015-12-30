@@ -39,7 +39,7 @@ class MyParser(HTMLParser):
         # cmd = "adb shell cat /system/build.prop "
         # cmd = "C:\Users\Administrator\AppData\Local\Android\sdk\platform-tools\adb.exe shell cat /system/build.prop"
         cmd = "adb.exe shell cat /system/build.prop"
-        p =subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        p =subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         # dev_info = os.popen(cmd).read()
         dev_info,stderr = p.communicate()
         print dev_info,stderr
