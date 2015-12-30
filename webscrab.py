@@ -37,16 +37,18 @@ class MyParser(HTMLParser):
         dev_info,stderr = p.communicate()
         print dev_info,stderr
 
-        print ">>>",dev_info
-        self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
-        self.dev_model = re.search(r"(ro.product.model=)(\S+)",dev_info).group(2)
-        self.dev_os_version= re.search(r"(ro.build.version.release=)(\S+)",dev_info).group(2)
-        print self.dev_manufacturer,self.dev_model,self.dev_os_version
-        fl=open('test_dev_info.properties','w')
-        fl.write('android_dev_name='+self.dev_manufacturer+'\n')
-        fl.write('android_dev_model='+self.dev_model+'\n')
-        fl.write('android_version='+self.dev_os_version+'\n')
-        fl.close()
+        if dev_info:
+            self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
+            self.dev_model = re.search(r"(ro.product.model=)(\S+)",dev_info).group(2)
+            self.dev_os_version= re.search(r"(ro.build.version.release=)(\S+)",dev_info).group(2)
+            print self.dev_manufacturer,self.dev_model,self.dev_os_version
+            fl=open('test_dev_info.properties','w')
+            fl.write('android_dev_name='+self.dev_manufacturer+'\n')
+            fl.write('android_dev_model='+self.dev_model+'\n')
+            fl.write('android_version='+self.dev_os_version+'\n')
+            fl.close()
+        else:
+            print "dev_info-->Null"
 
 
     def handle_starttag(self, tag, attrs):
