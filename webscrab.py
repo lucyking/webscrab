@@ -83,11 +83,11 @@ class MyParser(HTMLParser):
         # print os.popen(cmd).read()
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        print git_info
+        # git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+        # print git_info
 
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
-        # print os.popen(cmd).read()
+        print os.popen(cmd).read()
 
         html = self.getHtml('http://10.240.129.99/nightly/')
         apk_list = self.feed(html)
@@ -134,10 +134,10 @@ class MyParser(HTMLParser):
         # print os.popen(cmd).read()
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        print git_info
+        # git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+        # print git_info
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
-        # print os.popen(cmd).read()
+        print os.popen(cmd).read()
 
         html = self.getHtml('http://10.240.129.99/nightly/')
         apk_list = self.feed(html)
@@ -173,7 +173,7 @@ class MyParser(HTMLParser):
         # cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         # cmd = "pybot  --include Androiddemo  ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         cmd = "C:\Python27\python -m robot.run --include=Androiddemo --outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
-              "--xunit=xunitOutput.xml D:\JENKINS_hzqa_CI\workspace\yixin-AndroidUiTest\Test\BaseFunction\Mobile_Android"
+              "--xunit=xunitOutput.xml D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\YX_RFUI_Framework_demo\Test\YX_Subscriptions"
         # cmd = "ps aux"
         # print "[%s]:" %ctime()
         print "-------%s-------" % ctime()
