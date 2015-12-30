@@ -180,7 +180,7 @@ class MyParser(HTMLParser):
         cmd = "ln  ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
 
-        cmd = "pybot --variable BROWSER:safari --outputdir safari_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
+        cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         # cmd = "ps aux"
         # print "[%s]:" %ctime()
         print "-------%s-------" % ctime()
