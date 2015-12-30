@@ -21,7 +21,7 @@ class MyParser(HTMLParser):
     def manage_file(self):
         cmd = "mkdir RFUI_outputs_dir"
         print os.popen(cmd).read()
-        cmd = "cd . > ./RFUI_outputs_dir/log.html && cd . > ./RFUI_outputs_dir/log.png && cd . > ./RFUI_outputs_dir/xunitOutputs.xml"
+        cmd = "cd .>./RFUI_outputs_dir/output.xml && cd . > ./RFUI_outputs_dir/log.html && cd . > ./RFUI_outputs_dir/log.png && cd . > ./RFUI_outputs_dir/xunitOutputs.xml"
         print os.popen(cmd).read()
 
 
@@ -199,6 +199,8 @@ if __name__ == '__main__':
     uname_str = os.popen(cmd).read()
     print "[arch]:",uname_str
     """
+    MyParser.manage_file()
+
     uname_str = platform.system()
     print uname_str
     mac_arch = re.search("Darwin",uname_str)
