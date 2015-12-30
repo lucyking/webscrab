@@ -21,8 +21,8 @@ class MyParser(HTMLParser):
     def manage_file(self):
         cmd = "mkdir RFUI_outputs_dir"
         print os.popen(cmd).read()
-        cmd = "cd .>./RFUI_outputs_dir/output.xml && cd . > ./RFUI_outputs_dir/log.html && cd . > ./RFUI_outputs_dir/log.png && cd . > ./RFUI_outputs_dir/xunitOutputs.xml"
-        print os.popen(cmd).read()
+        # cmd = "cd .>./RFUI_outputs_dir/output.xml && cd . > ./RFUI_outputs_dir/log.html && cd . > ./RFUI_outputs_dir/log.png && cd . > ./RFUI_outputs_dir/xunitOutputs.xml"
+        # print os.popen(cmd).read()
 
 
     def get_device_info(self):
@@ -82,15 +82,10 @@ class MyParser(HTMLParser):
         # cmd = "rm ./*"
         # print os.popen(cmd).read()
 
-        cmd = " git clone https://git.hz.netease.com/git/hzxiadaqiang/Script.git"
-        print os.popen(cmd).read()
-
-        cmd ="cp -r ./Script/*   ./  && rm -r ./Script "
-        print os.popen(cmd).read()
-
-
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        print os.popen(cmd).read()
+        git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+        # print os.popen(cmd).read()
+        print git_info
 
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
         # print os.popen(cmd).read()
@@ -180,8 +175,10 @@ class MyParser(HTMLParser):
         cmd = "ln  ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
 
-        cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
+        # cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         # cmd = "pybot  --include Androiddemo  ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
+        cmd = "C:\Python27\python -m robot.run --include=Androiddemo --outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
+              "--xunit=xunitOutput.xml D:\JENKINS_hzqa_CI\workspace\yixin-AndroidUiTest\Test\BaseFunction\Mobile_Android"
         # cmd = "ps aux"
         # print "[%s]:" %ctime()
         print "-------%s-------" % ctime()
