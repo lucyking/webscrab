@@ -126,6 +126,7 @@ class MyParser(HTMLParser):
         print os.popen(cmd).read()
 
     def job_Windows(self):
+
         # cmd = "rm ./*"
         # print os.popen(cmd).read()
         print "\n\n>>>here is from Windows\n\n"
