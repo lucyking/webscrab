@@ -18,6 +18,12 @@ class MyParser(HTMLParser):
     def get_pwd(self):
         return sys.path[0]
 
+    def manage_file(self):
+        cmd = "mkdir RFUI_outputs_dir"
+        print os.popen(cmd).read()
+        cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/log.png"
+
+
     def get_device_info(self):
         """
         adb_info=`adb shell cat /system/build.prop`
@@ -80,9 +86,6 @@ class MyParser(HTMLParser):
         cmd ="cp -r ./Script/*   ./  && rm -r ./Script "
         print os.popen(cmd).read()
 
-        cmd = "mkdir RFUI_outputs_dir"
-        print os.popen(cmd).read()
-        # cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/"
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
@@ -136,9 +139,6 @@ class MyParser(HTMLParser):
         cmd ="cp -r ./Script/*   ./  && rm -r ./Script "
         print os.popen(cmd).read()
 
-        cmd = "mkdir RFUI_outputs_dir"
-        print os.popen(cmd).read()
-        # cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/"
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
