@@ -133,7 +133,9 @@ class MyParser(HTMLParser):
         # cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         # print os.popen(cmd).read()
 
-        cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
+        # cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
+        cmd = ' "C:\Program Files\Git\bin\git" clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git '
+
         # git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
         # print git_info
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
