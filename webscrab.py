@@ -21,7 +21,7 @@ class MyParser(HTMLParser):
     def manage_file(self):
         cmd = "mkdir RFUI_outputs_dir"
         print os.popen(cmd).read()
-        cmd = "touch ./RFUI_outputs_dir/log.html ./RFUI_outputs_dir/log.png"
+        cmd = "cd . > touch ./RFUI_outputs_dir/log.html && cd . > ./RFUI_outputs_dir/log.png"
         print os.popen(cmd).read()
 
 
