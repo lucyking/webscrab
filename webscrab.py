@@ -84,7 +84,6 @@ class MyParser(HTMLParser):
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        # print os.popen(cmd).read()
         print git_info
 
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
@@ -131,16 +130,12 @@ class MyParser(HTMLParser):
         # print os.popen(cmd).read()
         print "\n\n>>>here is from Windows\n\n"
 
-        cmd = " git clone https://git.hz.netease.com/git/hzxiadaqiang/Script.git"
-        print os.popen(cmd).read()
-
-        cmd ="cp -r ./Script/*   ./  && rm -r ./Script "
-        print os.popen(cmd).read()
-
+        # cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
+        # print os.popen(cmd).read()
 
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        print os.popen(cmd).read()
-
+        git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+        print git_info
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
         # print os.popen(cmd).read()
 
