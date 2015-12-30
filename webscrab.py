@@ -1,6 +1,6 @@
 # coding=utf-8
 import urllib, urllib2
-import sys, os,re, threading,platform
+import sys, os,re, threading,platform,subprocess
 from time import ctime, sleep
 from HTMLParser import HTMLParser
 
@@ -33,7 +33,8 @@ class MyParser(HTMLParser):
         print os.popen(cmd).read()
         # cmd = "adb shell cat /system/build.prop "
         cmd = "C:\Users\Administrator\AppData\Local\Android\sdk\platform-tools\adb.exe shell cat /system/build.prop"
-        dev_info = os.popen(cmd).read()
+        # dev_info = os.popen(cmd).read()
+        dev_info = subprocess.call(cmd)
         print ">>>",dev_info
         self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
         self.dev_model = re.search(r"(ro.product.model=)(\S+)",dev_info).group(2)
