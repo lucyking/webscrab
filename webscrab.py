@@ -39,9 +39,10 @@ class MyParser(HTMLParser):
         # cmd = "adb shell cat /system/build.prop "
         # cmd = "C:\Users\Administrator\AppData\Local\Android\sdk\platform-tools\adb.exe shell cat /system/build.prop"
         cmd = "adb.exe shell cat /system/build.prop"
-        p =subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        # p =subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
         # dev_info = os.popen(cmd).read()
-        dev_info,stderr = p.communicate()
+        # dev_info,stderr = p.communicate()
+        dev_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
         print dev_info,stderr
 
         if dev_info:
@@ -133,6 +134,7 @@ class MyParser(HTMLParser):
     def job_Windows(self):
         # cmd = "rm ./*"
         # print os.popen(cmd).read()
+        print "\n\n>>>here is from Windows\n\n"
 
         cmd = " git clone https://git.hz.netease.com/git/hzxiadaqiang/Script.git"
         print os.popen(cmd).read()
