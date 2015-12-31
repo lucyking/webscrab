@@ -40,10 +40,10 @@ class MyParser(HTMLParser):
         # cmd = "C:\Users\Administrator\AppData\Local\Android\sdk\platform-tools\adb.exe shell cat /system/build.prop"
         cmd = "adb.exe shell cat /system/build.prop"
         # p =subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        # dev_info = os.popen(cmd).read()
+        dev_info = os.popen(cmd).read()
         # dev_info,stderr = p.communicate()
-        dev_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        print dev_info,stderr
+        # dev_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+        print dev_info
 
         if dev_info:
             self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
