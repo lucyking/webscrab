@@ -136,11 +136,11 @@ class MyParser(HTMLParser):
         # cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         # >>>1230 this operation may failed
         # cmd = ' "C:\Program Files\Git\bin\git" clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git '
-        cmd = "git.exe clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
+        cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         # git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        subprocess.call(cmd,shell=False,stdout=subprocess.STDOUT,stderr=subprocess.STDOUT)
+        # print git_info,stderr
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
-        # print os.popen(cmd).read()
+        print os.popen(cmd).read()
 
         html = self.getHtml('http://10.240.129.99/nightly/')
         apk_list = self.feed(html)
