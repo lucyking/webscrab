@@ -18,15 +18,31 @@ class MyParser(HTMLParser):
     def get_pwd(self):
         return sys.path[0]
 
-    def manage_dir(self):
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a':
+            for name, value in attrs:
+                if name == 'href':
+                    self.resault = value  # merge with the latest apk
+
+    def getHtml(self, url):
+        page = urllib.urlopen(url)
+        html = page.read()
+        return html
+
+    def startAppium(self):
+        # cmd = 'start /b appium'
+        # cmd = 'nohup appium & '
+        # cmd = 'echo `nohup /usr/local/bin/appium &` &'
+        cmd = 'ps aux'
+        print "-------%s-------" % ctime()
+        print os.popen(cmd).read()
+
+    def create_output_dir(self):
         if  os.path.exists('./RFUI_outputs_dir'):
-            print ">>>RFUI_outputs_dir exists"
+            print ">>>RFUI_outputs_dir already exists"
         else:
             cmd = "mkdir RFUI_outputs_dir"
             print '>>>'+os.popen(cmd).read()
-        # cmd = "cd .>./RFUI_outputs_dir/output.xml && cd . > ./RFUI_outputs_dir/log.html && cd . > ./RFUI_outputs_dir/log.png && cd . > ./RFUI_outputs_dir/xunitOutputs.xml"
-        # print os.popen(cmd).read()
-
 
     def get_newest_apk(self):
         html = self.getHtml('http://10.240.129.99/nightly/')
@@ -52,27 +68,30 @@ class MyParser(HTMLParser):
             print self.pwd
             data = f.read()
             filename = apk_version + ".apk"
-            with open(filename, "wb") as code:
+            with open(filename, "wb") as code: #download newest apk
                 code.write(data)
             print "Download Done!"
             sleep(8) # wait appium start
+
         # rm the old apk
         cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
         print os.popen(cmd).read()
-        # script alongside the Res dir
-        cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
-        print os.popen(cmd).read()
+
+        # link newest apk to ./Res*/yixin_test.apk
+        # Win:ln <src>  <des>  |  Mac/Linux: ln -s <src> <des>
+        uname_str = platform.system()
+        os_arch =  re.search("Windows",uname_str)
+        if os_arch:
+            cmd = "ln  ./"    + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+            print os.popen(cmd).read()
+        else:
+            cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+            print os.popen(cmd).read()
+
 
     def get_device_info(self):
-        # cmd = "adb shell cat /system/build.prop "
-        # cmd = "C:\Users\Administrator\AppData\Local\Android\sdk\platform-tools\adb.exe shell cat /system/build.prop"
         cmd = "adb.exe shell cat /system/build.prop"
-        # p =subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
         dev_info = os.popen(cmd).read()
-        # dev_info,stderr = p.communicate()
-        # dev_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        # print dev_info
-
         if dev_info:
             self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
             self.dev_model = re.search(r"(ro.product.model=)(\S+)",dev_info).group(2)
@@ -85,73 +104,24 @@ class MyParser(HTMLParser):
             fl.write('android_version='+self.dev_os_version+'\n')
             fl.close()
         else:
-            print ">>>dev_info-->Null"
+            print ">>>No device find!"
 
-
-    def handle_starttag(self, tag, attrs):
-        if tag == 'a':
-            for name, value in attrs:
-                if name == 'href':
-                    self.resault = value  # merge with the latest apk
-
-    def getHtml(self, url):
-        page = urllib.urlopen(url)
-        html = page.read()
-        return html
-
-    def startAppium(self):
-        # cmd = 'start /b appium'
-        # cmd = 'nohup appium & '
-        # cmd = 'echo `nohup /usr/local/bin/appium &` &'
-        cmd = 'ps aux'
-        print "-------%s-------" % ctime()
+    def get_gitbucket(self):
+        cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
 
     def job_Mac(self):
-        # cmd = "rm ./*"
-        # print os.popen(cmd).read()
-
-        cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        # git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        # print git_info
-
-        # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
-        print os.popen(cmd).read()
-
-
         cmd = "pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
-        # cmd = "ps aux"
-        # print "[%s]:" %ctime()
-        print "-------%s-------" % ctime()
         print os.popen(cmd).read()
 
     def job_Windows(self):
-        # cmd = "rm ./*"
-        # print os.popen(cmd).read()
         print "\n\n>>>here is from Windows\n\n"
 
-        # cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        # print os.popen(cmd).read()
-
-        # cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        # >>>1230 this operation may failed
-        # cmd = ' "C:\Program Files\Git\bin\git" clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git '
-        cmd = "git.exe clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
-        # git_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        # print git_info,stderr
-        # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
-        print os.popen(cmd).read()
-
-        # cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
-        # cmd = "pybot  --include Androiddemo  ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         cmd = "C:\Python27\python -m robot.run " \
               "--include=demo " \
               "--xunit=xunitOutput.xml " \
               "--outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
               "D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\YX_RFUI_Framework_demo\Test\YX_Subscriptions"
-        # cmd = "ps aux"
-        # print "[%s]:" %ctime()
-        print "-------%s-------" % ctime()
         print os.popen(cmd).read()
 
     def job_Linux(self):
@@ -161,9 +131,10 @@ class MyParser(HTMLParser):
 if __name__ == '__main__':
 
     MyParser = MyParser()
-    MyParser.manage_dir()
+    MyParser.create_output_dir()
     MyParser.get_newest_apk()
     MyParser.get_device_info()
+    MyParser.get_gitbucket()
 
     uname_str = platform.system()
     print uname_str
@@ -180,25 +151,3 @@ if __name__ == '__main__':
         MyParser.job_Linux()
     else:
         print "[err]:can NOT detect OS type :-("
-
-    """
-    t2= 'None'
-    if mac_arch:
-        t2 = threading.Thread(target=MyParser.job_Mac())
-    elif win_arch:
-        t2 = threading.Thread(target=MyParser.job_Windows())
-    elif linux_arch:
-        t2 = threading.Thread(target=MyParser.job_Linux())  # you can use job_Mac() temporary
-    else:
-        print "[err]:can NOT detect OS type :-("
-
-    threads = []
-    t1 = threading.Thread(target=MyParser.get_device_info())
-    threads.append(t1)
-    if t2 != 'None':
-        threads.append(t2)
-    for t in threads:
-        t.start()
-    for t in threads:
-        t.join()
-    """
