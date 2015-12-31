@@ -28,6 +28,41 @@ class MyParser(HTMLParser):
         # print os.popen(cmd).read()
 
 
+    def get_newest_apk(self):
+        html = self.getHtml('http://10.240.129.99/nightly/')
+        apk_list = self.feed(html)
+        print "-------%s-------" % ctime()
+        print apk_list
+        print self.resault
+        apk_version = self.resault
+        apk_version = apk_version.replace('/', '')
+        print apk_version
+
+        fl=open('test_dev_info.properties','w')
+        fl.write('android_app_version='+self.resault+'\n')
+        fl.close()
+
+        if  os.path.exists('./'+apk_version+'.apk'):
+            print "the Apk already up-to-date\n"
+            sleep(8) # wait appium start
+        else:
+            download_url = "http://10.240.129.99/nightly/" + apk_version + '/' + apk_version + ".apk"
+            f = urllib2.urlopen(download_url)
+            self.pwd = self.get_pwd()
+            print self.pwd
+            data = f.read()
+            filename = apk_version + ".apk"
+            with open(filename, "wb") as code:
+                code.write(data)
+            print "Download Done!"
+            sleep(8) # wait appium start
+        # rm the old apk
+        cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        print os.popen(cmd).read()
+        # script alongside the Res dir
+        cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        print os.popen(cmd).read()
+
     def get_device_info(self):
         """
         adb_info=`adb shell cat /system/build.prop`
@@ -55,7 +90,6 @@ class MyParser(HTMLParser):
             print '>>>'+self.resault
             print '>>>'+self.dev_manufacturer,self.dev_model,self.dev_os_version
             fl=open('test_dev_info.properties','w')
-            fl.write('android_app_version='+self.resault+'\n')
             fl.write('android_dev_name='+self.dev_manufacturer+'\n')
             fl.write('android_dev_model='+self.dev_model+'\n')
             fl.write('android_version='+self.dev_os_version+'\n')
@@ -94,35 +128,6 @@ class MyParser(HTMLParser):
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
         print os.popen(cmd).read()
 
-        html = self.getHtml('http://10.240.129.99/nightly/')
-        apk_list = self.feed(html)
-        print "-------%s-------" % ctime()
-        print apk_list
-        print self.resault
-        apk_version = self.resault
-        apk_version = apk_version.replace('/', '')
-        print apk_version
-
-        if  os.path.exists('./'+apk_version+'.apk'):
-            print "the Apk already up-to-date\n"
-            sleep(8) # wait appium start
-        else:
-            download_url = "http://10.240.129.99/nightly/" + apk_version + '/' + apk_version + ".apk"
-            f = urllib2.urlopen(download_url)
-            self.pwd = self.get_pwd()
-            print self.pwd
-            data = f.read()
-            filename = apk_version + ".apk"
-            with open(filename, "wb") as code:
-                code.write(data)
-            print "Download Done!"
-
-        # rm the old apk
-        cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
-        print os.popen(cmd).read()
-        # script alongside the Res dir
-        cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
-        print os.popen(cmd).read()
 
         cmd = "pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         # cmd = "ps aux"
@@ -147,37 +152,6 @@ class MyParser(HTMLParser):
         # cmd = "wget https://git.hz.netease.com/hzxiadaqiang/Script/blob/master/webscrab.py?raw=true && mv webscrab.py?raw=true webscrab.py"
         print os.popen(cmd).read()
 
-        html = self.getHtml('http://10.240.129.99/nightly/')
-        apk_list = self.feed(html)
-        print "-------%s-------" % ctime()
-        print apk_list
-        print self.resault
-        apk_version = self.resault
-        apk_version = apk_version.replace('/', '')
-        print apk_version
-
-        if  os.path.exists('./'+apk_version+'.apk'):
-            print "the Apk already up-to-date\n"
-            sleep(8) # wait appium start
-        else:
-            download_url = "http://10.240.129.99/nightly/" + apk_version + '/' + apk_version + ".apk"
-            f = urllib2.urlopen(download_url)
-            self.pwd = self.get_pwd()
-            print self.pwd
-            data = f.read()
-            filename = apk_version + ".apk"
-            with open(filename, "wb") as code:
-                code.write(data)
-            print "Download Done!"
-            sleep(8) # wait appium start
-
-        # rm the old apk
-        cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
-        print os.popen(cmd).read()
-        # "ln -s" don't work in Windows, use "ln" instead
-        cmd = "ln  ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
-        print os.popen(cmd).read()
-
         # cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         # cmd = "pybot  --include Androiddemo  ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         cmd = "C:\Python27\python -m robot.run --include=demo --outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
@@ -194,12 +168,8 @@ class MyParser(HTMLParser):
 if __name__ == '__main__':
 
     MyParser = MyParser()
-    """
-    cmd = 'uname -a'
-    uname_str = os.popen(cmd).read()
-    print "[arch]:",uname_str
-    """
     MyParser.manage_dir()
+    MyParser.get_newest_apk()
     MyParser.get_device_info()
 
     uname_str = platform.system()
