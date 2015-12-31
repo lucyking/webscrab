@@ -22,7 +22,7 @@ class MyParser(HTMLParser):
         if tag == 'a':
             for name, value in attrs:
                 if name == 'href':
-                    self.resault = value  # merge with the latest apk
+                    self.resault = value  # merged by the latest version info
 
     def getHtml(self, url):
         page = urllib.urlopen(url)
@@ -60,7 +60,7 @@ class MyParser(HTMLParser):
 
         if  os.path.exists('./'+apk_version+'.apk'):
             print "the Apk already up-to-date\n"
-            sleep(8) # wait appium start
+            sleep(8)               # wait appium start
         else:
             download_url = "http://10.240.129.99/nightly/" + apk_version + '/' + apk_version + ".apk"
             f = urllib2.urlopen(download_url)
@@ -68,10 +68,10 @@ class MyParser(HTMLParser):
             print self.pwd
             data = f.read()
             filename = apk_version + ".apk"
-            with open(filename, "wb") as code: #download newest apk
+            with open(filename, "wb") as code:                   #download newest apk
                 code.write(data)
             print "Download Done!"
-            sleep(8) # wait appium start
+            sleep(8)             # wait appium start
 
         # rm the old apk
         cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
@@ -139,10 +139,10 @@ class MyParser(HTMLParser):
 if __name__ == '__main__':
 
     MyParser = MyParser()
-    MyParser.create_output_dir()
-    MyParser.get_newest_apk()
-    MyParser.get_device_info()
-    MyParser.get_gitbucket()
+    MyParser.create_output_dir()     # mkdir ./RFUI_outputs_dir
+    MyParser.get_newest_apk()       # wget http://10.240.129.99/nightly/*_latest.apk
+    MyParser.get_device_info()       # adb shell cat /system/build.prop
+    MyParser.get_gitbucket()          # git clone *_demo
 
     uname_str = platform.system()
     print uname_str
