@@ -18,9 +18,12 @@ class MyParser(HTMLParser):
     def get_pwd(self):
         return sys.path[0]
 
-    def manage_file(self):
-        cmd = "mkdir RFUI_outputs_dir"
-        print os.popen(cmd).read()
+    def manage_dir(self):
+        if  os.path.exists('./RFUI_outputs_dir'):
+            print ">>>RFUI_outputs_dir exists"
+        else:
+            cmd = "mkdir RFUI_outputs_dir"
+            print '>>>'+os.popen(cmd).read()
         # cmd = "cd .>./RFUI_outputs_dir/output.xml && cd . > ./RFUI_outputs_dir/log.html && cd . > ./RFUI_outputs_dir/log.png && cd . > ./RFUI_outputs_dir/xunitOutputs.xml"
         # print os.popen(cmd).read()
 
@@ -43,20 +46,22 @@ class MyParser(HTMLParser):
         dev_info = os.popen(cmd).read()
         # dev_info,stderr = p.communicate()
         # dev_info,stderr=subprocess.Popen(cmd,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-        print dev_info
+        # print dev_info
 
         if dev_info:
             self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
             self.dev_model = re.search(r"(ro.product.model=)(\S+)",dev_info).group(2)
             self.dev_os_version= re.search(r"(ro.build.version.release=)(\S+)",dev_info).group(2)
-            print self.dev_manufacturer,self.dev_model,self.dev_os_version
+            print '>>>'+self.resault
+            print '>>>'+self.dev_manufacturer,self.dev_model,self.dev_os_version
             fl=open('test_dev_info.properties','w')
+            fl.write('android_app_version='+self.resault+'\n')
             fl.write('android_dev_name='+self.dev_manufacturer+'\n')
             fl.write('android_dev_model='+self.dev_model+'\n')
             fl.write('android_version='+self.dev_os_version+'\n')
             fl.close()
         else:
-            print "dev_info-->Null"
+            print ">>>dev_info-->Null"
 
 
     def handle_starttag(self, tag, attrs):
@@ -194,7 +199,8 @@ if __name__ == '__main__':
     uname_str = os.popen(cmd).read()
     print "[arch]:",uname_str
     """
-    MyParser.manage_file()
+    MyParser.manage_dir()
+    MyParser.get_device_info()
 
     uname_str = platform.system()
     print uname_str
@@ -202,6 +208,17 @@ if __name__ == '__main__':
     win_arch = re.search("Windows",uname_str)
     linux_arch = re.search("Linux",uname_str)
 
+    t2= 'None'
+    if mac_arch:
+        MyParser.job_Mac()
+    elif win_arch:
+        MyParser.job_Windows()
+    elif linux_arch:
+        MyParser.job_Linux()
+    else:
+        print "[err]:can NOT detect OS type :-("
+
+    """
     t2= 'None'
     if mac_arch:
         t2 = threading.Thread(target=MyParser.job_Mac())
@@ -221,3 +238,4 @@ if __name__ == '__main__':
         t.start()
     for t in threads:
         t.join()
+    """
