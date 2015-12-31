@@ -55,7 +55,7 @@ class MyParser(HTMLParser):
         print apk_version
 
         fl=open('test_dev_info.properties','a')
-        fl.write('android_app_version='+self.resault+'\n')
+        fl.write('android_app_version='+apk_version+'\n')
         fl.close()
 
         if  os.path.exists('./'+apk_version+'.apk'):
