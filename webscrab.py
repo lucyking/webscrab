@@ -111,6 +111,8 @@ class MyParser(HTMLParser):
         print os.popen(cmd).read()
 
     def job_Mac(self):
+        print "\n\n>>>here is from Mac\n\n"
+
         cmd = "pybot " \
               "--variable BROWSER:safari " \
               "--outputdir safari_dir" \
@@ -148,7 +150,6 @@ if __name__ == '__main__':
     win_arch = re.search("Windows",uname_str)
     linux_arch = re.search("Linux",uname_str)
 
-    t2= 'None'
     if mac_arch:
         MyParser.job_Mac()
     elif win_arch:
