@@ -38,7 +38,7 @@ class MyParser(HTMLParser):
         apk_version = apk_version.replace('/', '')
         print apk_version
 
-        fl=open('test_dev_info.properties','w')
+        fl=open('test_dev_info.properties','a')
         fl.write('android_app_version='+self.resault+'\n')
         fl.close()
 
@@ -89,7 +89,7 @@ class MyParser(HTMLParser):
             self.dev_os_version= re.search(r"(ro.build.version.release=)(\S+)",dev_info).group(2)
             print '>>>'+self.resault
             print '>>>'+self.dev_manufacturer,self.dev_model,self.dev_os_version
-            fl=open('test_dev_info.properties','w')
+            fl=open('test_dev_info.properties','a')
             fl.write('android_dev_name='+self.dev_manufacturer+'\n')
             fl.write('android_dev_model='+self.dev_model+'\n')
             fl.write('android_version='+self.dev_os_version+'\n')
