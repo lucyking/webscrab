@@ -64,16 +64,6 @@ class MyParser(HTMLParser):
         print os.popen(cmd).read()
 
     def get_device_info(self):
-        """
-        adb_info=`adb shell cat /system/build.prop`
-        echo "adb_info: ${adb_info}"
-        dev_manufacturer=`echo "${adb_info}" | grep ro.product.manufacturer | awk -F\= '{print $2}'`
-        dev_model=`echo "${adb_info}" | grep ro.product.model | awk -F\= '{print $2}'`
-        device_os_version=`echo "${adb_info}" | grep ro.build.version.release | awk -F\= '{print $2}'`
-        echo "\ndev_manufacturer: ${dev_manufacturer}"
-        echo "dev_model: ${dev_model}"
-        echo "device_os_version: ${device_os_version}"
-        """
         # cmd = "adb shell cat /system/build.prop "
         # cmd = "C:\Users\Administrator\AppData\Local\Android\sdk\platform-tools\adb.exe shell cat /system/build.prop"
         cmd = "adb.exe shell cat /system/build.prop"
@@ -154,8 +144,11 @@ class MyParser(HTMLParser):
 
         # cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         # cmd = "pybot  --include Androiddemo  ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
-        cmd = "C:\Python27\python -m robot.run --include=demo --outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
-              "--xunit=xunitOutput.xml D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\YX_RFUI_Framework_demo\Test\YX_Subscriptions"
+        cmd = "C:\Python27\python -m robot.run " \
+              "--include=demo " \
+              "--xunit=xunitOutput.xml " \
+              "--outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
+              "D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\YX_RFUI_Framework_demo\Test\YX_Subscriptions"
         # cmd = "ps aux"
         # print "[%s]:" %ctime()
         print "-------%s-------" % ctime()
