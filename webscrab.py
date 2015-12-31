@@ -111,7 +111,13 @@ class MyParser(HTMLParser):
         print os.popen(cmd).read()
 
     def job_Mac(self):
-        cmd = "pybot --variable BROWSER:safari --outputdir safari_dir --include demo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
+        cmd = "pybot " \
+              "--variable BROWSER:safari " \
+              "--outputdir safari_dir" \
+              "--include demo " \
+              "--xunit output_xunit.xml " \
+              "--xunitskipnoncritical " \
+              "./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         print os.popen(cmd).read()
 
     def job_Windows(self):
