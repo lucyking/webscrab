@@ -180,7 +180,7 @@ class MyParser(HTMLParser):
 
         # cmd = "pybot --outputdir RFUI_outputs_dir --include Androiddemo --xunit output_xunit.xml --xunitskipnoncritical ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
         # cmd = "pybot  --include Androiddemo  ./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
-        cmd = "C:\Python27\python -m robot.run --include=Androiddemo --outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
+        cmd = "C:\Python27\python -m robot.run --include=demo --outputdir=D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\RFUI_outputs_dir " \
               "--xunit=xunitOutput.xml D:\JENKINS_hzqa_CI\workspace\yixin-WebUiTest-xdq\YX_RFUI_Framework_demo\Test\YX_Subscriptions"
         # cmd = "ps aux"
         # print "[%s]:" %ctime()
