@@ -46,13 +46,10 @@ class MyParser(HTMLParser):
 
     def get_newest_apk(self):
         html = self.getHtml('http://10.240.129.99/nightly/')
-        apk_list = self.feed(html)
+        self.feed(html)   # -->def handle_starttag():
         print "-------%s-------" % ctime()
-        print apk_list
-        print self.resault
         apk_version = self.resault
         apk_version = apk_version.replace('/', '')
-        print apk_version
 
         fl=open('test_dev_info.properties','a')
         fl.write('android_app_version='+apk_version+'\n')
