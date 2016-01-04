@@ -136,6 +136,18 @@ class MyParser(HTMLParser):
     def job_Linux(self):
         print "[info]:Linux fx() need added in future ;-)"
 
+    def job_operate(self):
+        uname_str = platform.system()
+        if re.search("Darwin", uname_str):
+            self.job_Mac()
+        elif re.search("Windows", uname_str):
+            self.job_Windows()
+        elif re.search("Linux", uname_str):
+            self.job_Linux()
+        else:
+            print "[x]:can NOT detect OS type :-("
+
+
 
 if __name__ == '__main__':
     
@@ -146,7 +158,8 @@ if __name__ == '__main__':
     MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
     MyParser.get_device_info()  # adb shell cat /system/build.prop
     MyParser.get_gitbucket()  # git clone *_demo
-
+    MyParser.job_operate()
+"""
     uname_str = platform.system()
     print uname_str
     mac_arch = re.search("Darwin", uname_str)
@@ -161,3 +174,4 @@ if __name__ == '__main__':
         MyParser.job_Linux()
     else:
         print "[x]:can NOT detect OS type :-("
+"""
