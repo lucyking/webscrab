@@ -90,7 +90,7 @@ class MyParser(HTMLParser):
 
 
     def get_device_info(self):
-        cmd = "adb.exe shell cat /system/build.prop"
+        cmd = "adb shell cat /system/build.prop"
         dev_info = os.popen(cmd).read()
         if dev_info:
             self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)",dev_info).group(2)
