@@ -135,47 +135,12 @@ class MyParser(HTMLParser):
 
     def job_Linux(self):
         print "[info]:Linux fx() need added in future ;-)"
-        """
-        cmd = "pybot " \
-              "--variable BROWSER:safari " \
-              "--outputdir safari_dir" \
-              "--include demo " \
-              "--xunit output_xunit.xml " \
-              "--xunitskipnoncritical " \
-              "./YX_RFUI_Framework_demo/Test/YX_Subscriptions/test_suite_examples.txt"
-        """
-        """
-        cmd = 'C:\Python27\python -m robot.run'+'  ' \
-              + '--include=' + self.include \
-              + '--xunit=' + self.xunit \
-              + '--outputdir=' + self.outputdir \
-              + self.testcase
-        print os.popen(cmd).read()
-        """
 
 
 if __name__ == '__main__':
     
     MyParser = MyParser()
     MyParser.input_cmd = sys.argv[1:]
-    """
-    opts,args = getopt.getopt(sys.argv[1:],"hvi:o:x:",["help","version","outputdir=","include=","xunit=","testcase="])
-    for op,value in opts:
-        if op == '-h' or op == '--help':
-            MyParser.usage()
-            sys.exit()
-        elif op == '-v' or op =='--version':
-            MyParser.get_version()
-            sys.exit()
-        elif op == '-i' or op == '--include':
-            MyParser.input_cmd += ' --inlcude='+value+' '
-        elif op == '-o' or op == '--outputdir':
-            MyParser.input_cmd += ' --outputdir='+value+' '
-        elif op == '-x' or op == '--xunit':
-            MyParser.input_cmd += ' --xunit'+value+'  '
-        elif op == '-t' or op == '--testcase':
-            MyParser.input_cmd += value+'  '
-    """
 
     MyParser.create_output_dir()  # mkdir ./RFUI_outputs_dir
     MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
