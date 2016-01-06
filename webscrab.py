@@ -66,7 +66,7 @@ class MyParser(HTMLParser):
         apk_version = self.resault
         apk_version = apk_version.replace('/', '')
 
-        fl = open('test_dev_info.properties', 'a')
+        fl = open('test_dev_info.properties', 'w')
         fl.write('android_app_version=' + apk_version + '\n')
         fl.close()
 
@@ -101,21 +101,27 @@ class MyParser(HTMLParser):
             print os.popen(cmd).read()
 
     def get_device_info(self):
-        cmd = "adb shell cat /system/build.prop"
+        cmd = "adb devices"
         dev_info = os.popen(cmd).read()
-        if dev_info:
-            self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)", dev_info).group(2)
-            self.dev_model = re.search(r"(ro.product.model=)(\S+)", dev_info).group(2)
-            self.dev_os_version = re.search(r"(ro.build.version.release=)(\S+)", dev_info).group(2)
-            print '>>>' + self.resault.replace('/', '')
-            print '>>>' + self.dev_manufacturer, self.dev_model, self.dev_os_version
-            fl = open('test_dev_info.properties', 'a')
-            fl.write('android_dev_name=' + self.dev_manufacturer + '\n')
-            fl.write('android_dev_model=' + self.dev_model + '\n')
-            fl.write('android_version=' + self.dev_os_version + '\n')
-            fl.close()
+        if len(dev_info)>len('List of devices attached\n\n'):
+            cmd = "adb shell cat /system/build.prop"
+            dev_info= os.popen(cmd).read()
+            tag = re.search(r"ro.product", dev_info)
+            if tag:
+                self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)", dev_info).group(2)
+                self.dev_model = re.search(r"(ro.product.model=)(\S+)", dev_info).group(2)
+                self.dev_os_version = re.search(r"(ro.build.version.release=)(\S+)", dev_info).group(2)
+                print '>>>' + self.resault.replace('/', '')
+                print '>>>' + self.dev_manufacturer, self.dev_model, self.dev_os_version
+                fl = open('test_dev_info.properties', 'a')
+                fl.write('android_dev_name=' + self.dev_manufacturer + '\n')
+                fl.write('android_dev_model=' + self.dev_model + '\n')
+                fl.write('android_version=' + self.dev_os_version + '\n')
+                fl.close()
+            else:
+                print "\n\n>>>[x]:No device connect!\n\n"
         else:
-            print ">>>No device find!"
+            print "\n\n>>>[x]:No device connect!\n\n"
 
     def get_gitbucket(self):
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
@@ -154,24 +160,8 @@ if __name__ == '__main__':
     MyParser = MyParser()
     MyParser.input_cmd = sys.argv[1:]
 
-    MyParser.create_output_dir()  # mkdir ./RFUI_outputs_dir
-    MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
+    # MyParser.create_output_dir()  # mkdir ./RFUI_outputs_dir
+    # MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
     MyParser.get_device_info()  # adb shell cat /system/build.prop
     # MyParser.get_gitbucket()  # git clone *_demo
-    MyParser.job_operate()
-"""
-    uname_str = platform.system()
-    print uname_str
-    mac_arch = re.search("Darwin", uname_str)
-    win_arch = re.search("Windows", uname_str)
-    linux_arch = re.search("Linux", uname_str)
-
-    if mac_arch:
-        MyParser.job_Mac()
-    elif win_arch:
-        MyParser.job_Windows()
-    elif linux_arch:
-        MyParser.job_Linux()
-    else:
-        print "[x]:can NOT detect OS type :-("
-"""
+    # MyParser.job_operate()
