@@ -86,18 +86,18 @@ class MyParser(HTMLParser):
             sleep(8)  # wait appium start
 
         # rm the old apk
-        cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
-        print os.popen(cmd).read()
+        # cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+        # print os.popen(cmd).read()
 
         # link newest apk to ./Res*/yixin_test.apk
         # Win:ln <src>  <des>  |  Mac/Linux: ln -s <src> <des>
         uname_str = platform.system()
         os_arch = re.search("Windows", uname_str)
         if os_arch:
-            cmd = "ln  ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+            cmd = "copy /y  .\\" + apk_version + ".apk" + "  .\\Resources\\yixin_test.apk"
             print os.popen(cmd).read()
         else:
-            cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
+            cmd = "ln -s ./" + apk_version + ".apk" + "   ./Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
     def get_device_info(self):
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     MyParser.create_output_dir()  # mkdir ./RFUI_outputs_dir
     MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
     MyParser.get_device_info()  # adb shell cat /system/build.prop
-    MyParser.get_gitbucket()  # git clone *_demo
+    # MyParser.get_gitbucket()  # git clone *_demo
     MyParser.job_operate()
 """
     uname_str = platform.system()
