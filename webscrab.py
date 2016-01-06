@@ -160,8 +160,8 @@ if __name__ == '__main__':
     MyParser = MyParser()
     MyParser.input_cmd = sys.argv[1:]
 
-    # MyParser.create_output_dir()  # mkdir ./RFUI_outputs_dir
-    # MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
+    MyParser.create_output_dir()  # mkdir ./RFUI_outputs_dir
+    MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
     MyParser.get_device_info()  # adb shell cat /system/build.prop
     # MyParser.get_gitbucket()  # git clone *_demo
-    # MyParser.job_operate()
+    MyParser.job_operate()
