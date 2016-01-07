@@ -24,6 +24,14 @@ class MyParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
 
+    def get_opt_content(self,opt):
+        tmp = sys.argv[1:]
+        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:", ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
+        for op, value in opts:
+            if op == opt :
+                return value
+
+
     def usage(self):
         print "user instroduction ;-)"
 
@@ -52,12 +60,21 @@ class MyParser(HTMLParser):
         print "-------%s-------" % ctime()
         print os.popen(cmd).read()
 
-    def create_output_dir(self):
-        if os.path.exists('./RFUI_outputs_dir'):
-            print ">>>RFUI_outputs_dir already exists"
-        else:
-            cmd = "mkdir RFUI_outputs_dir"
-            print '>>>' + os.popen(cmd).read()
+    def manage_output_dir(self):
+        output_dir=self.get_opt_content("--outputdir")
+        if os.path.exists(output_dir):
+            uname_str = platform.system()
+            if re.search("Darwin", uname_str):
+                cmd = "rm -rf ./"+output_dir
+                os.popen(cmd).read()
+            elif re.search("Linux", uname_str):
+                cmd = "rm -rf ./"+output_dir
+                os.popen(cmd).read()
+            elif re.search("Windows", uname_str):
+                cmd = "rd  /s/q "+output_dir
+                os.popen(cmd).read()
+        cmd = 'mkdir '+'"'+output_dir+'"'
+        os.popen(cmd).read()
 
     def get_newest_apk(self):
         html = self.getHtml('http://10.240.129.99/nightly/')
@@ -160,7 +177,7 @@ if __name__ == '__main__':
     MyParser = MyParser()
     MyParser.input_cmd = sys.argv[1:]
 
-    MyParser.create_output_dir()  # mkdir ./RFUI_outputs_dir
+    MyParser.manage_output_dir()  # mkdir ./RFUI_outputs_dir
     MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
     MyParser.get_device_info()  # adb shell cat /system/build.prop
     # MyParser.get_gitbucket()  # git clone *_demo
