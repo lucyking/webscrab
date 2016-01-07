@@ -137,8 +137,10 @@ class MyParser(HTMLParser):
                 fl.close()
             else:
                 print "\n\n>>>[x]:No device connect!\n\n"
+                sys.exit()
         else:
             print "\n\n>>>[x]:No device connect!\n\n"
+            sys.exit()
 
     def get_gitbucket(self):
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
@@ -161,6 +163,7 @@ class MyParser(HTMLParser):
 
     def job_operate(self):
         uname_str = platform.system()
+        print "operate"
         if re.search("Darwin", uname_str):
             self.job_Mac()
         elif re.search("Windows", uname_str):
