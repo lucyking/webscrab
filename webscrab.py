@@ -67,14 +67,29 @@ class MyParser(HTMLParser):
             if re.search("Darwin", uname_str):
                 cmd = "rm -rf ./"+output_dir
                 os.popen(cmd).read()
+                cmd = 'mkdir  -p '+output_dir
+                os.popen(cmd).read()
             elif re.search("Linux", uname_str):
                 cmd = "rm -rf ./"+output_dir
+                os.popen(cmd).read()
+                cmd = 'mkdir -p '+output_dir
                 os.popen(cmd).read()
             elif re.search("Windows", uname_str):
                 cmd = "rd  /s/q "+output_dir
                 os.popen(cmd).read()
-        cmd = 'mkdir '+'"'+output_dir+'"'
-        os.popen(cmd).read()
+                cmd = 'mkdir '+output_dir
+                os.popen(cmd).read()
+        else:
+            uname_str = platform.system()
+            if re.search("Darwin", uname_str):
+                cmd = 'mkdir  -p '+output_dir
+                os.popen(cmd).read()
+            elif re.search("Linux", uname_str):
+                cmd = 'mkdir -p '+output_dir
+                os.popen(cmd).read()
+            elif re.search("Windows", uname_str):
+                cmd = 'mkdir '+output_dir
+                os.popen(cmd).read()
 
     def get_newest_apk(self):
         html = self.getHtml('http://10.240.129.99/nightly/')
