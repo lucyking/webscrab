@@ -31,14 +31,37 @@ class MyParser(HTMLParser):
             if op == opt :
                 return value
 
+    def parse_argv(self):
+        argv = sys.argv[1:]
+        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:", ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
+        for op, value in opts:
+            if op == "-h" or op == "--help":
+                self.print_usage()
+                sys.exit()
 
     def print_usage(self):
-        print "user instroduction ;-)"
-        print "[Option]\n==========\n"
-        print ("%-16s%-10s"%("-h --help"," \tprint manual"))
-        print ("%-16s%-10s"%("-i --include tag *","\tSelect test cases to run by tag."))
-        print ("%-16s%-10s"%("-e --exclude tag *","\tSelect test cases not to run by tag."))
-        print ("%-16s%-10s"%("-e --roroxclude tag *","\tSelect test cases not to run by tag."))
+        print "\n[Option]\n=========="
+        print ("%-16s%-10s"%("-h --help"," \tprint this help manual"))
+        print ("%-16s%-10s"%("-d --outputdir dir","\tWhere to create output files."))
+        print ("%-16s%-10s"%("-i --include tag ","\tSelect test cases to run by tag."))
+        print ("%-16s%-10s"%("-e --exclude tag ","\tSelect test cases not to run by tag."))
+        print ("%-16s%-10s"%("-x --xunit file ","\tCreate xUnit compatible result file."))
+        # print "[More]:\vhttps://git.hz.netease.com/hzxiadaqiang/code_backup/blob/master/pybot_manual"
+        print "\n[Examples]\n=========="
+        print "[Mac]:\v" \
+              "python " \
+              "ci_example.py " \
+              "--include=aostest " \
+              "--outputdir=output " \
+              "--xunit=xunitOutput.xml " \
+              "./Test/BaseFunction/Mobile_Android"
+        print "[Win]:\v" \
+              "C:\Python27\python " \
+              " D:\*\ci_example.py " \
+              "--include=aostest " \
+              "--outputdir=D:\*\output  " \
+              "--xunit=xunitOutput.xml " \
+              "D:\*\Mobile_Android "
         sys.exit()
 
     def get_version(self):
@@ -200,6 +223,7 @@ if __name__ == '__main__':
     MyParser.input_cmd = sys.argv[1:]
     if len(sys.argv)==1:
         MyParser.print_usage()
+    MyParser.parse_argv()
 
     MyParser.manage_output_dir()  # mkdir ./RFUI_outputs_dir
     MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
