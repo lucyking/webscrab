@@ -32,8 +32,14 @@ class MyParser(HTMLParser):
                 return value
 
 
-    def usage(self):
+    def print_usage(self):
         print "user instroduction ;-)"
+        print "[Option]\n==========\n"
+        print ("%-16s%-10s"%("-h --help"," \tprint manual"))
+        print ("%-16s%-10s"%("-i --include tag *","\tSelect test cases to run by tag."))
+        print ("%-16s%-10s"%("-e --exclude tag *","\tSelect test cases not to run by tag."))
+        print ("%-16s%-10s"%("-e --roroxclude tag *","\tSelect test cases not to run by tag."))
+        sys.exit()
 
     def get_version(self):
         print "version 1.0.0"
@@ -192,6 +198,8 @@ if __name__ == '__main__':
     
     MyParser = MyParser()
     MyParser.input_cmd = sys.argv[1:]
+    if len(sys.argv)==1:
+        MyParser.print_usage()
 
     MyParser.manage_output_dir()  # mkdir ./RFUI_outputs_dir
     MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
