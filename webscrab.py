@@ -51,10 +51,10 @@ class MyParser(HTMLParser):
         print "[Mac]:\v" \
               "python " \
               "ci_example.py " \
-              "--include=aostest " \
+              "--include=Test" \
               "--outputdir=output " \
               "--xunit=xunitOutput.xml " \
-              "./Test/BaseFunction/Mobile_Android"
+              "./YX_RFUI_Framework_demo/Test/YX_Subscriptions/Mobile_Android"
         print "[Win]:\v" \
               "C:\Python27\python " \
               " D:\*\ci_example.py " \
@@ -156,7 +156,8 @@ class MyParser(HTMLParser):
             cmd = "copy /y  .\\" + apk_version + ".apk" + "  .\\Resources\\yixin_test.apk"
             print os.popen(cmd).read()
         else:
-            cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
+            # cmd = "ln -sf ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
+            cmd = "cp -f ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
     def get_device_info(self):
@@ -205,12 +206,13 @@ class MyParser(HTMLParser):
 
     def job_operate(self):
         uname_str = platform.system()
-        print "operate"
         if re.search("Darwin", uname_str):
+            self.get_gitbucket()  # git clone *_demo
             self.job_Mac()
         elif re.search("Windows", uname_str):
             self.job_Windows()
         elif re.search("Linux", uname_str):
+            self.get_gitbucket()  # git clone *_demo
             self.job_Linux()
         else:
             print "[x]:can NOT detect OS type :-("
@@ -228,5 +230,5 @@ if __name__ == '__main__':
     MyParser.manage_output_dir()  # mkdir ./RFUI_outputs_dir
     MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
     MyParser.get_device_info()  # adb shell cat /system/build.prop
-    # MyParser.get_gitbucket()  # git clone *_demo
+    # MyParser.get_gitbucket()  # git clone *_demo --> will uncommented when both test case join to one repository
     MyParser.job_operate()
