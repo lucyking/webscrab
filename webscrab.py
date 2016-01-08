@@ -156,7 +156,7 @@ class MyParser(HTMLParser):
             cmd = "copy /y  .\\" + apk_version + ".apk" + "  .\\Resources\\yixin_test.apk"
             print os.popen(cmd).read()
         else:
-            cmd = "ln -s ./" + apk_version + ".apk" + "   ./Resources/yixin_test.apk"
+            cmd = "ln -s ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
     def get_device_info(self):
