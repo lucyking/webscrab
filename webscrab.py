@@ -155,7 +155,7 @@ class MyParser(HTMLParser):
         os_arch = re.search("Windows", uname_str)
         if os_arch:
             cmd = "copy /y  .\\" + apk_version + ".apk" \
-                  + "  .\\Resources\\yixin_test.apk"
+                  + "   " +".\\Resources\\yixin_test.apk"
             print os.popen(cmd).read()
         else:
             # cmd = "ln -sf ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
