@@ -1,6 +1,6 @@
 # coding=utf-8
 import urllib, urllib2
-import sys, os, re, getopt,shutil
+import sys, os, re, getopt, shutil
 import threading, platform, subprocess
 from time import ctime, sleep
 from HTMLParser import HTMLParser
@@ -11,8 +11,8 @@ class MyParser(HTMLParser):
     version = 'NULL'
     include = 'NULL'
     testcase = 'NULL'
-    outputdir= 'NULL'
-    input_cmd =''
+    outputdir = 'NULL'
+    input_cmd = ''
 
     dev_model = 'NULL'
     dev_os_version = 'NULL'
@@ -24,16 +24,18 @@ class MyParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
 
-    def get_opt_content(self,opt):
+    def get_opt_content(self, opt):
         tmp = sys.argv[1:]
-        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:", ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
+        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
+                                   ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
         for op, value in opts:
-            if op == opt :
+            if op == opt:
                 return value
 
     def parse_argv(self):
         argv = sys.argv[1:]
-        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:", ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
+        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
+                                   ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
         for op, value in opts:
             if op == "-h" or op == "--help":
                 self.print_usage()
@@ -41,11 +43,11 @@ class MyParser(HTMLParser):
 
     def print_usage(self):
         print "\n[Option]\n=========="
-        print ("%-16s%-10s"%("-h --help"," \tprint this help manual"))
-        print ("%-16s%-10s"%("-d --outputdir dir","\tWhere to create output files."))
-        print ("%-16s%-10s"%("-i --include tag ","\tSelect test cases to run by tag."))
-        print ("%-16s%-10s"%("-e --exclude tag ","\tSelect test cases not to run by tag."))
-        print ("%-16s%-10s"%("-x --xunit file ","\tCreate xUnit compatible result file."))
+        print ("%-16s%-10s" % ("-h --help", " \tprint this help manual"))
+        print ("%-16s%-10s" % ("-d --outputdir dir", "\tWhere to create output files."))
+        print ("%-16s%-10s" % ("-i --include tag ", "\tSelect test cases to run by tag."))
+        print ("%-16s%-10s" % ("-e --exclude tag ", "\tSelect test cases not to run by tag."))
+        print ("%-16s%-10s" % ("-x --xunit file ", "\tCreate xUnit compatible result file."))
         # print "[More]:\vhttps://git.hz.netease.com/hzxiadaqiang/code_backup/blob/master/pybot_manual"
         print "\n[Examples]\n=========="
         print "[Mac]:\v" \
@@ -90,18 +92,18 @@ class MyParser(HTMLParser):
         print os.popen(cmd).read()
 
     def manage_output_dir(self):
-        output_dir=self.get_opt_content("--outputdir")
+        output_dir = self.get_opt_content("--outputdir")
         if os.path.exists(output_dir):
             try:
-                shutil.rmtree(output_dir)  # if dir exist,clean it
+                shutil.rmtree(output_dir)
                 os.mkdir(output_dir)
-            except IOError,e:
-                print IOError,">>>",e
+            except IOError, e:
+                print IOError, ">>>", e
         else:
             try:
-                os.mkdir(output_dir)   # if no dir,create dir
-            except IOError,e:
-                print IOError,">>>",e
+                os.mkdir(output_dir)
+            except IOError, e:
+                print IOError, ">>>", e
 
     def get_newest_apk(self):
         html = self.getHtml('http://10.240.129.99/nightly/')
@@ -114,9 +116,16 @@ class MyParser(HTMLParser):
         fl.write('android_app_version=' + apk_version + '\n')
         fl.close()
 
+        # remove old apk
+        for item in os.listdir('./'):
+            if os.path.splitext(item)[1] == ".apk":
+                if item != (apk_version + ".apk"):
+                    os.remove(item)
+
         if os.path.exists('./' + apk_version + '.apk'):
             print "the Apk already up-to-date\n"
         else:
+            # download newest apk
             download_url = "http://10.240.129.99/nightly/" \
                            + apk_version + '/' + apk_version + ".apk"
             f = urllib2.urlopen(download_url)
@@ -124,13 +133,9 @@ class MyParser(HTMLParser):
             print self.pwd
             data = f.read()
             filename = apk_version + ".apk"
-            with open(filename, "wb") as code:  # download newest apk
+            with open(filename, "wb") as code:
                 code.write(data)
             print "Download Done!"
-
-        # rm the old apk
-        # cmd = "rm ./YX_RFUI_Framework_demo/Resources/yixin_test.apk"
-        # print os.popen(cmd).read()
 
         # link newest apk to ./Res*/yixin_test.apk
         # Win:ln <src>  <des>  |  Mac/Linux: ln -s <src> <des>
@@ -138,20 +143,20 @@ class MyParser(HTMLParser):
         os_arch = re.search("Windows", uname_str)
         if os_arch:
             cmd = "copy /y  .\\" + apk_version + ".apk" \
-                  + "   " +".\\Resources\\yixin_test.apk"
+                  + "   " + ".\\Resources\\yixin_test.apk"
             print os.popen(cmd).read()
         else:
             # cmd = "ln -sf ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
             cmd = "cp -f ./" + apk_version + ".apk" \
-                  + "   "+ " ./YX_RFUI_Framework/Resources/yixin_test.apk"
+                  + "   " + " ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
     def get_device_info(self):
         cmd = "adb devices"
         dev_info = os.popen(cmd).read()
-        if len(dev_info)>len('List of devices attached\n\n'):
+        if len(dev_info) > len('List of devices attached\n\n'):
             cmd = "adb shell cat /system/build.prop"
-            dev_info= os.popen(cmd).read()
+            dev_info = os.popen(cmd).read()
             tag = re.search(r"ro.product", dev_info)
             if tag:
                 self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)", dev_info).group(2)
@@ -178,13 +183,13 @@ class MyParser(HTMLParser):
     def job_Mac(self):
         print "\n\n>>>here is from Mac\n\n"
         cmd = ' '.join(self.input_cmd)
-        cmd = 'pybot'+' '+cmd
+        cmd = 'pybot' + ' ' + cmd
         print os.popen(cmd).read()
 
     def job_Windows(self):
         print "\n\n>>>here is from Windows\n\n"
         cmd = ' '.join(self.input_cmd)
-        cmd = 'C:\Python27\python -m robot.run'+' '+cmd
+        cmd = 'C:\Python27\python -m robot.run' + ' ' + cmd
         print os.popen(cmd).read()
 
     def job_Linux(self):
@@ -204,12 +209,11 @@ class MyParser(HTMLParser):
             print "[x]:can NOT detect OS type :-("
 
 
-
 if __name__ == '__main__':
-    
+
     MyParser = MyParser()
     MyParser.input_cmd = sys.argv[1:]
-    if len(sys.argv)==1:
+    if len(sys.argv) == 1:
         MyParser.print_usage()
     MyParser.parse_argv()
 
