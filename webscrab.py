@@ -134,7 +134,8 @@ class MyParser(HTMLParser):
         if os.path.exists('./' + apk_version + '.apk'):
             print "the Apk already up-to-date\n"
         else:
-            download_url = "http://10.240.129.99/nightly/" + apk_version + '/' + apk_version + ".apk"
+            download_url = "http://10.240.129.99/nightly/" \
+                           + apk_version + '/' + apk_version + ".apk"
             f = urllib2.urlopen(download_url)
             self.pwd = self.get_pwd()
             print self.pwd
@@ -153,11 +154,13 @@ class MyParser(HTMLParser):
         uname_str = platform.system()
         os_arch = re.search("Windows", uname_str)
         if os_arch:
-            cmd = "copy /y  .\\" + apk_version + ".apk" + "  .\\Resources\\yixin_test.apk"
+            cmd = "copy /y  .\\" + apk_version + ".apk" \
+                  + "  .\\Resources\\yixin_test.apk"
             print os.popen(cmd).read()
         else:
             # cmd = "ln -sf ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
-            cmd = "cp -f ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
+            cmd = "cp -f ./" + apk_version + ".apk" \
+                  + "   "+ " ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
     def get_device_info(self):
