@@ -1,6 +1,6 @@
 # coding=utf-8
 import urllib, urllib2
-import sys, os, re, getopt
+import sys, os, re, getopt,shutil
 import threading, platform, subprocess
 from time import ctime, sleep
 from HTMLParser import HTMLParser
@@ -92,33 +92,16 @@ class MyParser(HTMLParser):
     def manage_output_dir(self):
         output_dir=self.get_opt_content("--outputdir")
         if os.path.exists(output_dir):
-            uname_str = platform.system()
-            if re.search("Darwin", uname_str):
-                cmd = "rm -rf ./"+output_dir
-                os.popen(cmd).read()
-                cmd = 'mkdir  -p '+output_dir
-                os.popen(cmd).read()
-            elif re.search("Linux", uname_str):
-                cmd = "rm -rf ./"+output_dir
-                os.popen(cmd).read()
-                cmd = 'mkdir -p '+output_dir
-                os.popen(cmd).read()
-            elif re.search("Windows", uname_str):
-                cmd = "rd  /s/q "+output_dir
-                os.popen(cmd).read()
-                cmd = 'mkdir '+output_dir
-                os.popen(cmd).read()
+            try:
+                shutil.rmtree(output_dir)  # if dir exist,clean it
+                os.mkdir(output_dir)
+            except IOError,e:
+                print IOError,">>>",e
         else:
-            uname_str = platform.system()
-            if re.search("Darwin", uname_str):
-                cmd = 'mkdir  -p '+output_dir
-                os.popen(cmd).read()
-            elif re.search("Linux", uname_str):
-                cmd = 'mkdir -p '+output_dir
-                os.popen(cmd).read()
-            elif re.search("Windows", uname_str):
-                cmd = 'mkdir '+output_dir
-                os.popen(cmd).read()
+            try:
+                os.mkdir(output_dir)   # if no dir,create dir
+            except IOError,e:
+                print IOError,">>>",e
 
     def get_newest_apk(self):
         html = self.getHtml('http://10.240.129.99/nightly/')
