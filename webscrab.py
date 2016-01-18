@@ -37,7 +37,10 @@ class MyParser(HTMLParser):
         HTMLParser.__init__(self)
 
     def get_opt_content(self, opt):
-        tmp = sys.argv[1:]
+        """
+        parse input argv to archive --outputdir,etc.
+        :return: string
+        """
         opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
                                    ["help", "version", "outputdir=",
                                     "include=", "xunit=", "testcase="])
@@ -46,7 +49,6 @@ class MyParser(HTMLParser):
                 return value
 
     def parse_argv(self):
-        argv = sys.argv[1:]
         opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
                                    ["help", "version", "outputdir=",
                                     "include=", "xunit=", "testcase="])
@@ -55,7 +57,11 @@ class MyParser(HTMLParser):
                 self.print_usage()
                 sys.exit()
 
-    def print_usage(self):
+    def  print_usage(self):
+        """
+        print help manual
+        :return: help manual  screen  output
+        """
         print "\n[Option]\n=========="
         print "%-16s%-10s" % ("-h --help", " \tprint this help manual")
         print "%-16s%-10s" % ("-d --outputdir dir", "\tOutput files path.")
@@ -82,9 +88,6 @@ class MyParser(HTMLParser):
 
     def get_version(self):
         print "version 1.0.0"
-
-    def get_pwd(self):
-        return sys.path[0]
 
     def handle_starttag(self, tag, attrs):
         if tag == 'a':
@@ -143,7 +146,7 @@ class MyParser(HTMLParser):
             download_url = "http://10.240.129.99/nightly/" \
                            + apk_version + '/' + apk_version + ".apk"
             f = urllib2.urlopen(download_url)
-            self.pwd = self.get_pwd()
+            self.pwd = sys.path[0]
             print self.pwd
             data = f.read()
             filename = apk_version + ".apk"
