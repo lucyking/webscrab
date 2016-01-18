@@ -41,8 +41,8 @@ class MyParser(HTMLParser):
         opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
                                    ["help", "version", "outputdir=",
                                     "include=", "xunit=", "testcase="])
-        for op, value in opts:
-            if op == opt:
+        for option, value in opts:
+            if option == opt:
                 return value
 
     def parse_argv(self):
@@ -211,7 +211,7 @@ class MyParser(HTMLParser):
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
 
-    def job_Mac(self):
+    def job_mac(self):
         """Mac's job
         """
         print "\n\n>>>here is from Mac\n\n"
@@ -219,7 +219,7 @@ class MyParser(HTMLParser):
         cmd = 'pybot' + ' ' + cmd
         print os.popen(cmd).read()
 
-    def job_Windows(self):
+    def job_windows(self):
         """Win's job
         """
         print "\n\n>>>here is from Windows\n\n"
@@ -227,7 +227,7 @@ class MyParser(HTMLParser):
         cmd = r'C:\Python27\python -m robot.run' + ' ' + cmd
         print os.popen(cmd).read()
 
-    def job_Linux(self):
+    def job_linux(self):
         """Linux's job
         """
         print "[info]:Linux fx() need added in future ;-)"
@@ -238,12 +238,12 @@ class MyParser(HTMLParser):
         uname_str = platform.system()
         if re.search("Darwin", uname_str):
             self.get_gitbucket()  # git clone *_demo
-            self.job_Mac()
+            self.job_mac()
         elif re.search("Windows", uname_str):
-            self.job_Windows()
+            self.job_windows()
         elif re.search("Linux", uname_str):
             self.get_gitbucket()  # git clone *_demo
-            self.job_Linux()
+            self.job_linux()
         else:
             print "[x]:can NOT detect OS type :-("
 
