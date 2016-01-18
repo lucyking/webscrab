@@ -27,7 +27,8 @@ class MyParser(HTMLParser):
     def get_opt_content(self, opt):
         tmp = sys.argv[1:]
         opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
-                                   ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
+                                   ["help", "version", "outputdir=",
+                                    "include=", "xunit=", "testcase="])
         for op, value in opts:
             if op == opt:
                 return value
@@ -35,7 +36,8 @@ class MyParser(HTMLParser):
     def parse_argv(self):
         argv = sys.argv[1:]
         opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
-                                   ["help", "version", "outputdir=", "include=", "xunit=", "testcase="])
+                                   ["help", "version", "outputdir=",
+                                    "include=", "xunit=", "testcase="])
         for op, value in opts:
             if op == "-h" or op == "--help":
                 self.print_usage()
@@ -44,10 +46,10 @@ class MyParser(HTMLParser):
     def print_usage(self):
         print "\n[Option]\n=========="
         print "%-16s%-10s" % ("-h --help", " \tprint this help manual")
-        print "%-16s%-10s" % ("-d --outputdir dir", "\tWhere to create output files.")
-        print "%-16s%-10s" % ("-i --include tag ", "\tSelect test cases to run by tag.")
-        print "%-16s%-10s" % ("-e --exclude tag ", "\tSelect test cases not to run by tag.")
-        print "%-16s%-10s" % ("-x --xunit file ", "\tCreate xUnit compatible result file.")
+        print "%-16s%-10s" % ("-d --outputdir dir", "\tOutput files path.")
+        print "%-16s%-10s" % ("-i --include tag ", "\tInclude test cases.")
+        print "%-16s%-10s" % ("-e --exclude tag ", "\tExclude test cases.")
+        print "%-16s%-10s" % ("-x --xunit file ", "\tCreate xUnit file.")
         # print "[More]:\vhttps://git.hz.netease.com/hzxiadaqiang/code_backup/blob/master/pybot_manual"
         print "\n[Examples]\n=========="
         print "[Mac]:\v" \
@@ -146,7 +148,6 @@ class MyParser(HTMLParser):
                   + "   " + ".\\Resources\\yixin_test.apk"
             print os.popen(cmd).read()
         else:
-            # cmd = "ln -sf ./" + apk_version + ".apk" + "   ./YX_RFUI_Framework/Resources/yixin_test.apk"
             cmd = "cp -f ./" + apk_version + ".apk" \
                   + "   " + " ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
@@ -163,7 +164,9 @@ class MyParser(HTMLParser):
                 self.dev_model = re.search(r"(ro.product.model=)(\S+)", dev_info).group(2)
                 self.dev_os_version = re.search(r"(ro.build.version.release=)(\S+)", dev_info).group(2)
                 print '>>>' + self.resault.replace('/', '')
-                print '>>>' + self.dev_manufacturer, self.dev_model, self.dev_os_version
+                print '>>>' + self.dev_manufacturer,
+                print self.dev_model,
+                print self.dev_os_version
                 fl = open('test_dev_info.properties', 'a')
                 fl.write('android_dev_name=' + self.dev_manufacturer + '\n')
                 fl.write('android_dev_model=' + self.dev_model + '\n')
