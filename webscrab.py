@@ -100,7 +100,7 @@ class MyParser(HTMLParser):
         html = page.read()
         return html
 
-    def startAppium(self):
+    def start_appium(self):
         # cmd = 'start /b appium'
         # cmd = 'nohup appium & '
         # cmd = 'echo `nohup /usr/local/bin/appium &` &'
@@ -167,6 +167,10 @@ class MyParser(HTMLParser):
                   + "   " + " ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
+    def parse_info(self, source, object):
+        resault = re.search(r"("+object+r")(\S+)", source ).group(2)
+        return resault
+
     def get_device_info(self):
         cmd = "adb devices"
         dev_info = os.popen(cmd).read()
@@ -175,18 +179,29 @@ class MyParser(HTMLParser):
             dev_info = os.popen(cmd).read()
             tag = re.search(r"ro.product", dev_info)
             if tag:
-                self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)", dev_info).group(2)
-                self.dev_model = re.search(r"(ro.product.model=)(\S+)", dev_info).group(2)
-                self.dev_os_version = re.search(r"(ro.build.version.release=)(\S+)", dev_info).group(2)
+                self.dev_manufacturer = \
+                    re.search(r"(ro.product.manufacturer=)(\S+)", dev_info).group(2)
+                self.dev_model = \
+                    re.search(r"(ro.product.model=)(\S+)", dev_info).group(2)
+                self.dev_os_version = \
+                    re.search(r"(ro.build.version.release=)(\S+)", dev_info).group(2)
+                """
+                s1= "ro.product.manufacturer="
+                s2 = "ro.product.model="
+                s3 = "ro.build.version.release="
+                self.dev_manufacturer = self.parse_info(dev_info,s1)
+                self.dev_model = self.parse_info(dev_info,s2)
+                self.dev_os_version = self.parse_info(dev_info,s3)
+                """
                 print '>>>' + self.resault.replace('/', '')
                 print '>>>' + self.dev_manufacturer,
                 print self.dev_model,
                 print self.dev_os_version
-                fl = open('test_dev_info.properties', 'a')
-                fl.write('android_dev_name=' + self.dev_manufacturer + '\n')
-                fl.write('android_dev_model=' + self.dev_model + '\n')
-                fl.write('android_version=' + self.dev_os_version + '\n')
-                fl.close()
+                file = open('test_dev_info.properties', 'a')
+                file.write('android_dev_name=' + self.dev_manufacturer + '\n')
+                file.write('android_dev_model=' + self.dev_model + '\n')
+                file.write('android_version=' + self.dev_os_version + '\n')
+                file.close()
             else:
                 print "\n\n>>>[x]:No device connect!\n\n"
                 sys.exit()
