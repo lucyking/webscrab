@@ -43,11 +43,11 @@ class MyParser(HTMLParser):
 
     def print_usage(self):
         print "\n[Option]\n=========="
-        print ("%-16s%-10s" % ("-h --help", " \tprint this help manual"))
-        print ("%-16s%-10s" % ("-d --outputdir dir", "\tWhere to create output files."))
-        print ("%-16s%-10s" % ("-i --include tag ", "\tSelect test cases to run by tag."))
-        print ("%-16s%-10s" % ("-e --exclude tag ", "\tSelect test cases not to run by tag."))
-        print ("%-16s%-10s" % ("-x --xunit file ", "\tCreate xUnit compatible result file."))
+        print "%-16s%-10s" % ("-h --help", " \tprint this help manual")
+        print "%-16s%-10s" % ("-d --outputdir dir", "\tWhere to create output files.")
+        print "%-16s%-10s" % ("-i --include tag ", "\tSelect test cases to run by tag.")
+        print "%-16s%-10s" % ("-e --exclude tag ", "\tSelect test cases not to run by tag.")
+        print "%-16s%-10s" % ("-x --xunit file ", "\tCreate xUnit compatible result file.")
         # print "[More]:\vhttps://git.hz.netease.com/hzxiadaqiang/code_backup/blob/master/pybot_manual"
         print "\n[Examples]\n=========="
         print "[Mac]:\v" \
