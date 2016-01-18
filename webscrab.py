@@ -58,12 +58,12 @@ class MyParser(HTMLParser):
               "--xunit=xunitOutput.xml " \
               "./YX_RFUI_Framework_demo/Test/YX_Subscriptions/Mobile_Android"
         print "[Win]:\v" \
-              "C:\Python27\python " \
-              " D:\*\ci_example.py " \
-              "--include=aostest " \
-              "--outputdir=D:\*\output  " \
-              "--xunit=xunitOutput.xml " \
-              "D:\*\Mobile_Android "
+              r"C:\Python27\python " \
+              r" D:\*\ci_example.py " \
+              r"--include=aostest " \
+              r"--outputdir=D:\*\output  " \
+              r"--xunit=xunitOutput.xml " \
+              r"D:\*\Mobile_Android "
         sys.exit()
 
     def get_version(self):
@@ -189,7 +189,7 @@ class MyParser(HTMLParser):
     def job_Windows(self):
         print "\n\n>>>here is from Windows\n\n"
         cmd = ' '.join(self.input_cmd)
-        cmd = 'C:\Python27\python -m robot.run' + ' ' + cmd
+        cmd = r'C:\Python27\python -m robot.run' + ' ' + cmd
         print os.popen(cmd).read()
 
     def job_Linux(self):
