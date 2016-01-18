@@ -168,7 +168,7 @@ class MyParser(HTMLParser):
             print os.popen(cmd).read()
 
     def parse_info(self, source, object):
-        resault = re.search(r"("+object+r")(\S+)", source ).group(2)
+        resault = re.search(r"("+object+r")(\S+)", source).group(2)
         return resault
 
     def get_device_info(self):
