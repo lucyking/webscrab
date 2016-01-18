@@ -1,12 +1,24 @@
 # coding=utf-8
-import urllib, urllib2
-import sys, os, re, getopt, shutil
-import threading, platform, subprocess
-from time import ctime, sleep
+"""
+Module doc:
+A automatic CI script support multiple OS.
+"""
+import os
+import re
+import sys
+import urllib
+import urllib2
+import shutil
+import getopt
+import platform
+from time import ctime
 from HTMLParser import HTMLParser
 
 
 class MyParser(HTMLParser):
+    """
+    the main class
+    """
     xunit = 'NULL'
     version = 'NULL'
     include = 'NULL'
