@@ -1,6 +1,5 @@
 # coding=utf-8
 """
-Module doc:
 A automatic CI script support multiple OS.
 """
 import os
@@ -36,7 +35,8 @@ class MyParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
 
-    def get_opt_content(self, opt):
+    @staticmethod
+    def get_opt_content(opt):
         """
         parse input argv to archive --outputdir,etc.
         :return: string
@@ -57,7 +57,8 @@ class MyParser(HTMLParser):
                 self.print_usage()
                 sys.exit()
 
-    def  print_usage(self):
+    @staticmethod
+    def  print_usage():
         """
         print help manual
         :return: help manual  screen  output
@@ -68,7 +69,6 @@ class MyParser(HTMLParser):
         print "%-16s%-10s" % ("-i --include tag ", "\tInclude test cases.")
         print "%-16s%-10s" % ("-e --exclude tag ", "\tExclude test cases.")
         print "%-16s%-10s" % ("-x --xunit file ", "\tCreate xUnit file.")
-        # print "[More]:\vhttps://git.hz.netease.com/hzxiadaqiang/code_backup/blob/master/pybot_manual"
         print "\n[Examples]\n=========="
         print "[Mac]:\v" \
               "python " \
@@ -85,9 +85,6 @@ class MyParser(HTMLParser):
               r"--xunit=xunitOutput.xml " \
               r"D:\*\Mobile_Android "
         sys.exit()
-
-    def get_version(self):
-        print "version 1.0.0"
 
     def handle_starttag(self, tag, attrs):
         if tag == 'a':
@@ -129,9 +126,9 @@ class MyParser(HTMLParser):
         apk_version = self.resault
         apk_version = apk_version.replace('/', '')
 
-        file = open('test_dev_info.properties', 'w')
-        file.write('android_app_version=' + apk_version + '\n')
-        file.close()
+        flip = open('test_dev_info.properties', 'w')
+        flip.write('android_app_version=' + apk_version + '\n')
+        flip.close()
 
         # remove old apk
         for item in os.listdir('./'):
@@ -145,10 +142,10 @@ class MyParser(HTMLParser):
             # download newest apk
             download_url = "http://10.240.129.99/nightly/" \
                            + apk_version + '/' + apk_version + ".apk"
-            file = urllib2.urlopen(download_url)
+            flip = urllib2.urlopen(download_url)
             self.pwd = sys.path[0]
             print self.pwd
-            data = file.read()
+            data = flip.read()
             filename = apk_version + ".apk"
             with open(filename, "wb") as code:
                 code.write(data)
@@ -167,8 +164,9 @@ class MyParser(HTMLParser):
                   + "   " + " ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
-    def parse_info(self, source, object):
-        resault = re.search(r"("+object+r")(\S+)", source).group(2)
+    @staticmethod
+    def parse_info(source, target):
+        resault = re.search(r"("+target+r")(\S+)", source).group(2)
         return resault
 
     def get_device_info(self):
@@ -197,11 +195,11 @@ class MyParser(HTMLParser):
                 print '>>>' + self.dev_manufacturer,
                 print self.dev_model,
                 print self.dev_os_version
-                file = open('test_dev_info.properties', 'a')
-                file.write('android_dev_name=' + self.dev_manufacturer + '\n')
-                file.write('android_dev_model=' + self.dev_model + '\n')
-                file.write('android_version=' + self.dev_os_version + '\n')
-                file.close()
+                flip = open('test_dev_info.properties', 'a')
+                flip.write('android_dev_name=' + self.dev_manufacturer + '\n')
+                flip.write('android_dev_model=' + self.dev_model + '\n')
+                flip.write('android_version=' + self.dev_os_version + '\n')
+                flip.close()
             else:
                 print "\n\n>>>[x]:No device connect!\n\n"
                 sys.exit()
@@ -244,14 +242,15 @@ class MyParser(HTMLParser):
 
 if __name__ == '__main__':
 
-    MyParser = MyParser()
-    MyParser.input_cmd = sys.argv[1:]
+    parse = MyParser()
+    parse.input_cmd = sys.argv[1:]
     if len(sys.argv) == 1:
-        MyParser.print_usage()
-    MyParser.parse_argv()
+        parse.get_device_info()  # adb shell cat /system/build.prop
+        parse.print_usage()
+    parse.parse_argv()
 
-    MyParser.manage_output_dir()  # mkdir ./RFUI_outputs_dir
-    MyParser.get_newest_apk()  # wget http://10.240.129.99/nightly/*_latest.apk
-    MyParser.get_device_info()  # adb shell cat /system/build.prop
-    # MyParser.get_gitbucket()  # git clone *_demo --> will uncommented when both test case join to one repository
-    MyParser.job_operate()
+    parse.manage_output_dir()  # mkdir ./RFUI_outputs_dir
+    parse.get_newest_apk()  # wget latest.apk
+    parse.get_device_info()  # adb shell cat /system/build.prop
+    # parse.get_gitbucket()  # will uncommented  latter
+    parse.job_operate()
