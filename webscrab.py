@@ -1,6 +1,5 @@
 # coding=utf-8
-"""
-A automatic CI script support multiple OS.
+"""A automatic CI script support multiple OS.
 """
 import os
 import re
@@ -15,8 +14,7 @@ from HTMLParser import HTMLParser
 
 
 class MyParser(HTMLParser):
-    """
-    the main class
+    """the main class
     """
     xunit = 'NULL'
     version = 'NULL'
@@ -37,8 +35,7 @@ class MyParser(HTMLParser):
 
     @staticmethod
     def get_opt_content(opt):
-        """
-        parse input argv to archive --outputdir,etc.
+        """parse input argv to archive --outputdir,etc.
         :return: string
         """
         opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
@@ -59,8 +56,7 @@ class MyParser(HTMLParser):
 
     @staticmethod
     def  print_usage():
-        """
-        print help manual
+        """print help manual
         :return: help manual  screen  output
         """
         print "\n[Option]\n=========="
@@ -170,6 +166,8 @@ class MyParser(HTMLParser):
         return resault
 
     def get_device_info(self):
+        """:return Motorola XT1080 4.4.4 ,etc.
+        """
         cmd = "adb devices"
         dev_info = os.popen(cmd).read()
         if len(dev_info) > len('List of devices attached\n\n'):
@@ -208,25 +206,35 @@ class MyParser(HTMLParser):
             sys.exit()
 
     def get_gitbucket(self):
+        """pull remote repo to current dir
+        """
         cmd = "git clone https://git.hz.netease.com/git/yxplusQA/YX_RFUI_Framework_demo.git"
         print os.popen(cmd).read()
 
     def job_Mac(self):
+        """Mac's job
+        """
         print "\n\n>>>here is from Mac\n\n"
         cmd = ' '.join(self.input_cmd)
         cmd = 'pybot' + ' ' + cmd
         print os.popen(cmd).read()
 
     def job_Windows(self):
+        """Win's job
+        """
         print "\n\n>>>here is from Windows\n\n"
         cmd = ' '.join(self.input_cmd)
         cmd = r'C:\Python27\python -m robot.run' + ' ' + cmd
         print os.popen(cmd).read()
 
     def job_Linux(self):
+        """Linux's job
+        """
         print "[info]:Linux fx() need added in future ;-)"
 
     def job_operate(self):
+        """run corresponding job according to current OS system
+        """
         uname_str = platform.system()
         if re.search("Darwin", uname_str):
             self.get_gitbucket()  # git clone *_demo
