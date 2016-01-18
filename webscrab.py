@@ -55,7 +55,7 @@ class MyParser(HTMLParser):
                 sys.exit()
 
     @staticmethod
-    def  print_usage():
+    def print_usage():
         """print help manual
         :return: help manual  screen  output
         """
@@ -162,7 +162,7 @@ class MyParser(HTMLParser):
 
     @staticmethod
     def parse_info(source, target):
-        resault = re.search(r"("+target+r")(\S+)", source).group(2)
+        resault = re.search(r"(" + target + r")(\S+)", source).group(2)
         return resault
 
     def get_device_info(self):
@@ -175,12 +175,12 @@ class MyParser(HTMLParser):
             dev_info = os.popen(cmd).read()
             tag = re.search(r"ro.product", dev_info)
             if tag:
-                s1= "ro.product.manufacturer="
+                s1 = "ro.product.manufacturer="
                 s2 = "ro.product.model="
                 s3 = "ro.build.version.release="
-                self.dev_manufacturer = self.parse_info(dev_info,s1)
-                self.dev_model = self.parse_info(dev_info,s2)
-                self.dev_os_version = self.parse_info(dev_info,s3)
+                self.dev_manufacturer = self.parse_info(dev_info, s1)
+                self.dev_model = self.parse_info(dev_info, s2)
+                self.dev_os_version = self.parse_info(dev_info, s3)
                 print '>>>' + self.resault.replace('/', '')
                 print '>>>' + self.dev_manufacturer,
                 print self.dev_model,
