@@ -114,13 +114,13 @@ class MyParser(HTMLParser):
             try:
                 shutil.rmtree(output_dir)
                 os.mkdir(output_dir)
-            except IOError, e:
-                print IOError, ">>>", e
+            except IOError, error:
+                print IOError, ">>>", error
         else:
             try:
                 os.mkdir(output_dir)
-            except IOError, e:
-                print IOError, ">>>", e
+            except IOError, error:
+                print IOError, ">>>", error
 
     def get_newest_apk(self):
         html = self.getHtml('http://10.240.129.99/nightly/')
@@ -129,9 +129,9 @@ class MyParser(HTMLParser):
         apk_version = self.resault
         apk_version = apk_version.replace('/', '')
 
-        fl = open('test_dev_info.properties', 'w')
-        fl.write('android_app_version=' + apk_version + '\n')
-        fl.close()
+        file = open('test_dev_info.properties', 'w')
+        file.write('android_app_version=' + apk_version + '\n')
+        file.close()
 
         # remove old apk
         for item in os.listdir('./'):
@@ -145,10 +145,10 @@ class MyParser(HTMLParser):
             # download newest apk
             download_url = "http://10.240.129.99/nightly/" \
                            + apk_version + '/' + apk_version + ".apk"
-            f = urllib2.urlopen(download_url)
+            file = urllib2.urlopen(download_url)
             self.pwd = sys.path[0]
             print self.pwd
-            data = f.read()
+            data = file.read()
             filename = apk_version + ".apk"
             with open(filename, "wb") as code:
                 code.write(data)
