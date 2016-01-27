@@ -164,7 +164,7 @@ class MyParser(HTMLParser):
         print "\n\n>>>here is from Mac\n\n"
         cmd = ' '.join(sys.argv[1:])
         cmd = 'pybot' + ' ' + cmd
-        print os.popen(cmd).read()
+        os.system(cmd)
 
     def job_windows(self):
         """Win's job
@@ -172,7 +172,7 @@ class MyParser(HTMLParser):
         print "\n\n>>>here is from Windows\n\n"
         cmd = ' '.join(sys.argv[1:])
         cmd = r'C:\Python27\python -m robot.run' + ' ' + cmd
-        print os.popen(cmd).read()
+        os.system(cmd)
 
     def job_linux(self):
         """Linux's job
