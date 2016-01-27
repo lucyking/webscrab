@@ -7,7 +7,7 @@ import sys
 import urllib
 import urllib2
 import shutil
-import getopt
+import optparse
 import platform
 from time import ctime
 from HTMLParser import HTMLParser
@@ -21,7 +21,6 @@ class MyParser(HTMLParser):
     include = 'NULL'
     testcase = 'NULL'
     outputdir = 'NULL'
-    input_cmd = ''
 
     dev_model = 'NULL'
     dev_os_version = 'NULL'
@@ -32,55 +31,22 @@ class MyParser(HTMLParser):
 
     def __init__(self):
         HTMLParser.__init__(self)
+        self.options = self.parse_option()
 
-    @staticmethod
-    def get_opt_content(opt):
-        """parse input argv to archive --outputdir,etc.
-        :return: string
-        """
-        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
-                                   ["help", "version", "outputdir=",
-                                    "include=", "xunit=", "testcase="])
-        for option, value in opts:
-            if option == opt:
-                return value
-
-    def parse_argv(self):
-        opts, args = getopt.getopt(sys.argv[1:], "hvi:o:x:",
-                                   ["help", "version", "outputdir=",
-                                    "include=", "xunit=", "testcase="])
-        for op, value in opts:
-            if op == "-h" or op == "--help":
-                self.print_usage()
-                sys.exit()
-
-    @staticmethod
-    def print_usage():
-        """print help manual
-        :return: help manual  screen  output
-        """
-        print "\n[Option]\n=========="
-        print "%-16s%-10s" % ("-h --help", " \tprint this help manual")
-        print "%-16s%-10s" % ("-d --outputdir dir", "\tOutput files path.")
-        print "%-16s%-10s" % ("-i --include tag ", "\tInclude test cases.")
-        print "%-16s%-10s" % ("-e --exclude tag ", "\tExclude test cases.")
-        print "%-16s%-10s" % ("-x --xunit file ", "\tCreate xUnit file.")
-        print "\n[Examples]\n=========="
-        print "[Mac]:\v" \
-              "python " \
-              "ci_example.py " \
-              "--include=Test" \
-              "--outputdir=output " \
-              "--xunit=xunitOutput.xml " \
-              "./YX_RFUI_Framework_demo/Test/YX_Subscriptions/Mobile_Android"
-        print "[Win]:\v" \
-              r"C:\Python27\python " \
-              r" D:\*\ci_example.py " \
-              r"--include=aostest " \
-              r"--outputdir=D:\*\output  " \
-              r"--xunit=xunitOutput.xml " \
-              r"D:\*\Mobile_Android "
-        sys.exit()
+    def parse_option(self):
+        opt = optparse.OptionParser()
+        opt.add_option('-i', '--include', metavar='tag',
+                       help='Select the cases tOutput run by tags, Example: --include citest  --include P0')
+        opt.add_option('-e', '--exclude', metavar='tag',
+                       help='Select the cases tOutput not to run by tags, Example: --exclude noauto')
+        opt.add_option('-d', '--outputdir', metavar='dir', default='./RFUI_outputs_dir',
+                       help='directory to create output files,  (defalt: .\RFUI_outputs_dir)')
+        opt.add_option('-x', '--xunit', metavar='FILE', default='xunitOutput.xml',
+                       help='xUnit compatible result file,  (defalt: xunitOutput.xml)')
+        opt.add_option('-s', '--datasouces', metavar='PATH',
+                       help='RF data_sources(testcase/test suite path) to run,  Example: --datasouces .\YX_RFUI_Framework_demo\Test\YX_Subscriptions\Plus_Web')
+        options, arguments = opt.parse_args()
+        return options
 
     def handle_starttag(self, tag, attrs):
         if tag == 'a':
@@ -102,7 +68,8 @@ class MyParser(HTMLParser):
         print os.popen(cmd).read()
 
     def manage_output_dir(self):
-        output_dir = self.get_opt_content("--outputdir")
+        # output_dir = self.get_opt_content("--outputdir")
+        output_dir = self.options.outputdir
         if os.path.exists(output_dir):
             try:
                 shutil.rmtree(output_dir)
@@ -111,7 +78,7 @@ class MyParser(HTMLParser):
                 print IOError, ">>>", error
         else:
             try:
-                os.mkdir(output_dir)
+                os.makedirs(output_dir)
             except IOError, error:
                 print IOError, ">>>", error
 
@@ -160,11 +127,6 @@ class MyParser(HTMLParser):
                   + "   " + " ./YX_RFUI_Framework/Resources/yixin_test.apk"
             print os.popen(cmd).read()
 
-    @staticmethod
-    def parse_info(source, target):
-        resault = re.search(r"(" + target + r")(\S+)", source).group(2)
-        return resault
-
     def get_device_info(self):
         """:return Motorola XT1080 4.4.4 ,etc.
         """
@@ -175,16 +137,11 @@ class MyParser(HTMLParser):
             dev_info = os.popen(cmd).read()
             tag = re.search(r"ro.product", dev_info)
             if tag:
-                s1 = "ro.product.manufacturer="
-                s2 = "ro.product.model="
-                s3 = "ro.build.version.release="
-                self.dev_manufacturer = self.parse_info(dev_info, s1)
-                self.dev_model = self.parse_info(dev_info, s2)
-                self.dev_os_version = self.parse_info(dev_info, s3)
+                self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)", dev_info).group(2)
+                self.dev_model = re.search(r"(ro.product.model=)(\S+)", dev_info).group(2)
+                self.dev_os_version = re.search(r"(ro.build.version.release=)(\S+)", dev_info).group(2)
                 print '>>>' + self.resault.replace('/', '')
-                print '>>>' + self.dev_manufacturer,
-                print self.dev_model,
-                print self.dev_os_version
+                print '>>>' + self.dev_manufacturer, self.dev_model, self.dev_os_version
                 flip = open('test_dev_info.properties', 'a')
                 flip.write('android_dev_name=' + self.dev_manufacturer + '\n')
                 flip.write('android_dev_model=' + self.dev_model + '\n')
@@ -207,7 +164,7 @@ class MyParser(HTMLParser):
         """Mac's job
         """
         print "\n\n>>>here is from Mac\n\n"
-        cmd = ' '.join(self.input_cmd)
+        cmd = ' '.join(sys.argv[1:])
         cmd = 'pybot' + ' ' + cmd
         print os.popen(cmd).read()
 
@@ -215,7 +172,7 @@ class MyParser(HTMLParser):
         """Win's job
         """
         print "\n\n>>>here is from Windows\n\n"
-        cmd = ' '.join(self.input_cmd)
+        cmd = ' '.join(sys.argv[1:])
         cmd = r'C:\Python27\python -m robot.run' + ' ' + cmd
         print os.popen(cmd).read()
 
@@ -241,16 +198,9 @@ class MyParser(HTMLParser):
 
 
 if __name__ == '__main__':
-
     parse = MyParser()
-    parse.input_cmd = sys.argv[1:]
-    if len(sys.argv) == 1:
-        parse.get_device_info()  # adb shell cat /system/build.prop
-        parse.print_usage()
-    parse.parse_argv()
-
-    parse.manage_output_dir()  # mkdir ./RFUI_outputs_dir
-    parse.get_newest_apk()  # wget latest.apk
-    parse.get_device_info()  # adb shell cat /system/build.prop
-    # parse.get_gitbucket()  # will uncommented  latter
+    parse.get_device_info()
+    parse.manage_output_dir()
+    parse.get_newest_apk()
+    # parse.get_gitbucket()
     parse.job_operate()
