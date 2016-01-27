@@ -43,8 +43,6 @@ class MyParser(HTMLParser):
                        help='directory to create output files,  (defalt: .\RFUI_outputs_dir)')
         opt.add_option('-x', '--xunit', metavar='FILE', default='xunitOutput.xml',
                        help='xUnit compatible result file,  (defalt: xunitOutput.xml)')
-        opt.add_option('-s', '--datasouces', metavar='PATH',
-                       help='RF data_sources(testcase/test suite path) to run,  Example: --datasouces .\YX_RFUI_Framework_demo\Test\YX_Subscriptions\Plus_Web')
         options, arguments = opt.parse_args()
         return options
 
