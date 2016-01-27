@@ -86,6 +86,7 @@ class MyParser(HTMLParser):
         print "-------%s-------" % ctime()
         apk_version = self.resault
         apk_version = apk_version.replace('/', '')
+        print '>>>' + apk_version
 
         flip = open('test_dev_info.properties', 'w')
         flip.write('android_app_version=' + apk_version + '\n')
@@ -138,7 +139,6 @@ class MyParser(HTMLParser):
                 self.dev_manufacturer = re.search(r"(ro.product.manufacturer=)(\S+)", dev_info).group(2)
                 self.dev_model = re.search(r"(ro.product.model=)(\S+)", dev_info).group(2)
                 self.dev_os_version = re.search(r"(ro.build.version.release=)(\S+)", dev_info).group(2)
-                print '>>>' + self.resault.replace('/', '')
                 print '>>>' + self.dev_manufacturer, self.dev_model, self.dev_os_version
                 flip = open('test_dev_info.properties', 'a')
                 flip.write('android_dev_name=' + self.dev_manufacturer + '\n')
