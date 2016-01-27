@@ -197,8 +197,8 @@ class MyParser(HTMLParser):
 
 if __name__ == '__main__':
     parse = MyParser()
-    parse.get_device_info()
     parse.manage_output_dir()
     parse.get_newest_apk()
+    parse.get_device_info()
     # parse.get_gitbucket()
     parse.job_operate()
