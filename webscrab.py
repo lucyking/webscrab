@@ -202,3 +202,8 @@ if __name__ == '__main__':
     parse.get_device_info()
     # parse.get_gitbucket()
     parse.job_operate()
+    
+    
+    
+    
+    
